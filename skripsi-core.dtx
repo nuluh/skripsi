@@ -67,8 +67,9 @@
 % \end{macro}
 %
 % \section{Package Dependencies}
-%Packages loaded by the class for layout, fonts, lists, and references.
+%Packages loaded by the class for layouts, fonts, lists, and references.
 %    \begin{macrocode}
+\RequirePackage{environ}
 \RequirePackage{polyglossia}
 \RequirePackage{fontspec}
 \RequirePackage{titling}
@@ -534,72 +535,108 @@
 %    \end{macrocode}
 % \section{Abstract}
 % \subsection{Keywords}
-% Defined new macro with auto sorting. Thanks to \href{https://tex.stackexchange.com/a/333659}{\TeX{} StackExchange} for the idea.
+% \label{sec:keyword-macro}
+% \subsubsection{Engine-Agnostic String Comparison}
+%
+% Define a wrapper macro for string comparison that works across different \LaTeX{}
+% engines without requiring external packages. The |\pdf@strcmp| macro provides a
+% unified interface to engine-specific string comparison primitives.
+%
 %    \begin{macrocode}
-\def\listterminator{;}
-\newcommand\alphabubblesort[1]{\def\presorted{}\def\sortedlist{}%
-  \sortlist#1,\listterminator,\relax}
-\def\sortlist#1#2,#3#4,#5\relax{%
-  \if\listterminator#3#4\relax%
-    \expandafter\def\expandafter\sortedlist\expandafter{\sortedlist#1#2}%
-  \else
-    \ifnum\the\lccode`#1<\the\lccode`#3\relax%
-      \expandafter\expandafter\expandafter\def\expandafter\expandafter%
-      \expandafter\sortedlist\expandafter\expandafter\expandafter{%
-      \expandafter\sortedlist\presorted#1#2, }%
-      \expandafter\def\expandafter\svfirst\expandafter{\presorted#3#4}%
-      \def\presorted{}%
-      \expandafter\sortlist\svfirst,#5\relax%
-    \else%
-      \ifnum`#1=`#3\relax%
-        \ifx\relax#2\relax%
-          \expandafter\expandafter\expandafter\def\expandafter\expandafter%
-          \expandafter\sortedlist\expandafter\expandafter\expandafter{%
-          \expandafter\sortedlist\presorted#1#2, }%
-          \expandafter\def\expandafter\svfirst\expandafter{\presorted#3#4}%
-          \def\presorted{}%
-          \expandafter\sortlist\svfirst,#5\relax%          
-        \else%
-          \ifx\relax#4\relax%
-            \expandafter\expandafter\expandafter\def\expandafter\expandafter%
-            \expandafter\sortedlist\expandafter\expandafter\expandafter{%
-            \expandafter\sortedlist\presorted#3#4, }%
-            \expandafter\def\expandafter\svfirst\expandafter{\presorted#1#2}%
-            \def\presorted{}%
-            \expandafter\sortlist\svfirst,#5\relax%
-          \else        
-            \g@addto@macro\presorted{#1}%
-            \sortlist#2,#4,#5\relax%
-          \fi%
-        \fi%
-      \else%
-        \let\tmp\sortedlist%
-        \def\sortedlist{}%
-        \expandafter\def\expandafter\svfirst\expandafter{\presorted#3#4}%
-        \expandafter\def\expandafter\svsecond\expandafter{\presorted#1#2}%
-        \def\presorted{}%
-        \expandafter\expandafter\expandafter\expandafter\expandafter%
-        \expandafter\expandafter\sortlist\expandafter\expandafter%
-        \expandafter\tmp\expandafter\svfirst\expandafter,\svsecond,#5\relax%
-      \fi%
-    \fi%
-  \fi%
-  }
+\makeatletter
+\ifluatex
+  \let\pdf@strcmp\pdfstrcmp
+\else\ifxetex
+  \let\pdf@strcmp\strcmp
+\fi\fi
 %    \end{macrocode}
+%
+% The keyword system provides automatic alphabetical sorting of comma-separated
+% keywords and integrates them into both the document display and PDF metadata.
+% This implementation requires Lua\LaTeX{} compilation.
+%
+% \begin{macro}{\alphabubblesort}
+% \changes{v1.0}{2025/11/09}{Initial version}
+% 
+% Sort a comma-separated list of keywords alphabetically.
+% This macro serves as the \LaTeX{} interface to the Lua |sort_keywords| function
+% defined in Section~\ref{sec:lua-keyword-sort}.
+% 
+% \paragraph{Implementation Strategy}
+% This implementation delegates both parsing and sorting entirely to Lua:
+% \begin{enumerate}
+% \item Pass the raw comma-separated string to Lua via |\directlua|
+% \item Lua handles delimiter splitting, whitespace trimming, and sorting
+% \item Return the sorted, formatted string to \LaTeX{}
+% \end{enumerate}
+% 
+% This approach is simpler and more maintainable than traditional \TeX{} string
+% manipulation, avoiding catcode issues and complex loop constructs. The resulting
+% sorted list is stored in |\sortedlist| for use in the |\keywords| macro.
+% 
+%    \begin{macrocode}
+\newcommand\alphabubblesort[1]{
+    \ifLuaTeX
+%    \end{macrocode}
+% Pass the entire keyword string to |sort_keywords| and store the result in
+% |\sortedlist|. The |\luaescapestring| command ensures that special characters
+% (backslashes, quotes, etc.) are properly escaped for Lua parsing, while
+% |\unexpanded| prevents premature macro expansion.
+%    \begin{macrocode}
+        \edef\sortedlist{%
+            \directlua{
+            local input = "\luaescapestring{\unexpanded{#1}}"
+            local sorted = sort_keywords(input)
+            tex.sprint(sorted)
+            }%
+        }%
+%    \end{macrocode}
+% If not compiled with Lua\LaTeX, issue a class warning to consider using Lua\LaTeX for this sorting.
+%    \begin{macrocode}
+    \else
+        \ClassWarning{skripsi}{%
+            Keyword sorting requires LuaLaTeX; 
+            consider compiling with LuaLaTeX for auto-sort keywords%
+        }%
+        \gdef\sortedlist{#1}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\keywords}
 % \changes{v1.0}{2025/11/09}{Initial version}
-% And then define the |keywords| macro that uses the above sorting macro.
+% 
+% Display sorted keywords and embed them in PDF metadata.
+% This macro provides the user-facing interface for keyword input, handling both
+% visual presentation and metadata generation.
+%
+% \paragraph{Multilingual Support}
+% The macro automatically detects the document language using |\languagename| and
+% adjusts the keyword label accordingly:
+% \begin{itemize}
+% \item Malay (|malay|): displays as ``Kata Kunci:'' in upright text
+% \item Other languages: displays as ``\textit{Keywords:}'' in italic text
+% \end{itemize}
 %    \begin{macrocode}
 \newcommand{\keywords}[1]{%
   \bigskip\noindent
   \alphabubblesort{#1}
-  \ifnum\strcmp{\languagename}{malay}=0
-  Kata Kunci: \sortedlist%
-  \else
-    \textit{Keywords: \sortedlist}%
-  \fi
+  \ifnum\pdf@strcmp{\languagename}{malay}=0
+    Kata Kunci: \sortedlist%
+    \else
+        \textit{Keywords: \sortedlist}%
+    \fi
 %    \end{macrocode}
-%    Store the sorted keyword list globally for use in PDF metadata and sanitize the keywords for PDF strings: escape special characters (such as parentheses) and ensure proper Unicode encoding for PDF document information dictionaries. 
+%    
+% \paragraph{PDF Metadata Integration}
+% Sorted keywords are embedded in the PDF document information dictionary through
+% three mechanisms to ensure maximum compatibility:
+% \begin{enumerate}
+% \item Direct embedding via |\special{pdf:docinfo}| for Xe\LaTeX/xdvipdfmx workflows
+% \item Updating hyperref's internal metadata via |\hypersetup| (if loaded)
+% \item Proper escaping of special characters using |\pdfstringdef| to ensure
+%       PDF string compliance
+% \end{enumerate}
 %    \begin{macrocode}
   \gdef\SortedKeywords{\sortedlist} \pdfstringdef\kwpdf{\SortedKeywords}%
 %    \end{macrocode}
@@ -614,31 +651,71 @@
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Abstract Word Count Warning}
-% Due to limitations in pure LaTeX for text processing, we implement a LuaLaTeX-specific solution to count words in the abstract environment and issue a warning if it exceeds 5 words
 % \begin{environment}{abstract}
 % \changes{v1.0}{2025/11/09}{Initial version}
+% 
+% Define the abstract environment with word count validation.
+% This implementation uses \textsf{environ} to capture the entire environment body,
+% enabling word count analysis before typesetting.
+%
+% Due to the inherent limitations of pure \LaTeX{} for text processing and parsing,
+% word counting is implemented only for Lua\LaTeX{} workflows. When compiled with
+% Lua\LaTeX, the environment captures the abstract body and passes it to a Lua
+% function (|count_words|) for accurate word counting. If the word count exceeds
+% the threshold defined in |\maxabstractlengthwarning|, a class warning is issued
+% to both the log file and console output.
+%
+% \begin{itemize}
+% \item Word counting is unavailable in pdf\LaTeX{} and \XeLaTeX{} workflows
+% \item Macro expansion within the abstract may affect word count accuracy
+% \item Special characters and mathematical content may be counted unexpectedly
+% \end{itemize}
+%
 %    \begin{macrocode}
-\newcommand{\theabstract}{}  % Initialize storage
-\makeatletter
-\newenvironment{abstract}{%
-  \global\let\oldabstract\theabstract
-  \gdef\theabstract{}%
-  \long\def\@captureabstract##1\end{abstract}{%
-    \gdef\theabstract{##1}%
-    \oldabstract
-  }%
-  \captureabstract
+\newcommand\abstractname{Abstract}
+\newcommand{\maxabstractlengthwarning}{}
+\NewEnviron{abstract}{%
+%    \end{macrocode}
+% Store the environment body globally for potential reuse (e.g., in PDF metadata).
+%    \begin{macrocode}
+  \global\let\theabstract\BODY
+%    \end{macrocode}
+% Perform word count validation only when compiled with Lua\LaTeX.
+%    \begin{macrocode}
   \ifLuaTeX
-    \directlua{
-        abstract_data = "\luaescapestring{\theabstract}"
-        abstract_count = count_words(abstract_data)
-    }
-    \ifnum\abstract_count>5
-      \ClassWarning{skripsi.cls}{Abstract exceeds 5 words in LuaLaTeX compilation.}%
+%    \end{macrocode}
+% Execute the Lua word counting function and store the result in |\abstractwordcount|.
+% The |\luaescapestring| and |\unexpanded\expandafter| combination ensures that
+% special characters and macros in the abstract are properly escaped before being
+% passed to Lua, preventing compilation errors.
+%    \begin{macrocode}
+    \edef\abstractwordcount{%
+      \directlua{
+        local text = "\luaescapestring{\unexpanded\expandafter{\BODY}}"
+        local count = count_words(text)
+        tex.print(count)
+      }%
+    }%
+%    \end{macrocode}
+% Compare the word count against the maximum threshold. If exceeded, issue a
+% class warning that appears in both the |.log| file and console output.
+%    \begin{macrocode}
+    \ifnum\abstractwordcount>\maxabstractlengthwarning\relax
+      \ClassWarning{skripsi}{%
+        Abstract exceeds \maxabstractlengthwarning\space words 
+        (current count: \abstractwordcount\space words)%
+      }%
+      \typeout{WARNING: Abstract exceeds \maxabstractlengthwarning\space words!}%
+      \typeout{Word count: \abstractwordcount}%
+    \fi
   \fi
-}{}
+%    \end{macrocode}
+% Typeset the abstract as a chapter with the appropriate heading.
+%    \begin{macrocode}
+  \chapter{\abstractname}
+  \BODY
+}
 \makeatother
-% This approach is tricky and error-prone
 %    \end{macrocode}
 % \end{environment}
 % \iffalse

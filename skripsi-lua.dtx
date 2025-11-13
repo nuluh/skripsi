@@ -2,27 +2,115 @@
 %<*lua>
 % \fi
 % \section{LuaLaTeX Support}
+% \label{sec:lua-support}
 %    \begin{macrocode}
-\RequirePackage{iftex}
+\RequirePackage{ifluatex}
 \ifLuaTeX
-  \RequirePackage{luacode}
+\RequirePackage{luacode}
 %    \end{macrocode}
-% This section documentss LuaLaTeX-specific code and features in the \texttt{skripsi} class.
+% This section documents Lua\LaTeX-specific code and features in the \texttt{skripsi} class.
+% These features are only available when the document is compiled with Lua\LaTeX.
+%
 % \subsection{Abstract Word Count}
+% \label{sec:lua-word-count}
+%
+% The |count_words| function provides a simple word counting mechanism for validating
+% abstract length. This function counts all non-whitespace sequences (|\%S+| pattern)
+% as words, which provides a reasonable approximation for most text content.
+%
+% \paragraph{Implementation Details}
+% The function uses Lua's |string.gmatch| iterator with the pattern |\%S+| to match
+% sequences of non-whitespace characters. While simple, this approach has limitations:
+% \begin{itemize}
+% \item Punctuation attached to words (e.g., |"word,"| or |"word."|) is counted as 
+%       part of the word
+% \item Hyphenated words are counted as single words
+% \item \LaTeX{} control sequences and markup are counted as tokens
+% \item Numbers and special symbols are counted as words
+% \end{itemize}
+% 
+% For more sophisticated word counting (e.g., handling \LaTeX{} commands, excluding
+% math mode content), consider extending this function or using a dedicated Lua library.
+%
 %    \begin{macrocode}
-\begin{luacode}
--- Word counter function
-function count_words(text)
-    local count = 0
-    -- Remove LaTeX commands and count words
-    text = text:gsub("\\%a+%*?%b{}", "")  -- Remove commands with arguments
-    text = text:gsub("\\%a+%*?", "")      -- Remove commands without arguments
-    for word in text:gmatch("%S+") do
+    \begin{luacode}
+    function count_words(text)
+        local count = 0
+        for word in string.gmatch(text, "\csstring\%S+") do
         count = count + 1
+        end
+        return count
     end
-    return count
-end
-\end{luacode}
+    \end{luacode}
+%    \end{macrocode}
+%
+% \subsection{Keyword Sorting}
+% \label{sec:lua-keyword-sort}
+%
+% The keyword sorting system provides automatic alphabetical sorting of comma-separated
+% keyword lists. By handling both parsing and sorting in Lua, this implementation is
+% more robust and efficient than pure \TeX{} solutions.
+%
+% \subsubsection{String Trimming}
+%
+% The |trim| helper function removes leading and trailing whitespace from strings.
+% This ensures consistent formatting regardless of spacing in the input (e.g.,
+% |keyword1, keyword2| and |keyword1,keyword2| produce identical results).
+%
+%    \begin{macrocode}
+    \begin{luacode}
+    function trim(s)
+        return s:match("^%s*(.-)%s*$")
+    end
+    \end{luacode}
+%    \end{macrocode}
+%
+% \subsubsection{Keyword List Sorting}
+%
+% The |sort_keywords| function handles the complete workflow of parsing, cleaning,
+% and sorting comma-separated keyword lists.
+%
+% \paragraph{Implementation Details}
+% The function performs the following operations:
+% \begin{enumerate}
+% \item Split the input string on commas using Lua's |string.gmatch| pattern matching
+% \item Trim whitespace from each keyword using the |trim| helper function
+% \item Remove empty keywords (which may result from trailing commas or double commas)
+% \item Sort keywords alphabetically using case-insensitive comparison
+% \item Reconstruct the sorted list as a comma-separated string with consistent spacing
+% \end{enumerate}
+%
+% \paragraph{Algorithm Characteristics}
+% \begin{itemize}
+% \item Uses Lua's built-in |table.sort| with a case-insensitive comparator
+% \item Time complexity: O(n log n) for n keywords (more efficient than bubble sort)
+% \item Handles edge cases: empty keywords, extra whitespace, trailing commas
+% \item Output format: keywords separated by |", "| (comma followed by single space)
+% \end{itemize}
+%
+% \paragraph{Usage}
+% This function is called by the |\alphabubblesort| macro (see Section~\ref{sec:keyword-macro})
+% which passes the raw comma-separated keyword string directly from the |\keywords| command.
+%
+%    \begin{macrocode}
+    \begin{luacode}
+    function sort_keywords(input)
+        local keywords = {}
+        -- Split on commas and trim each keyword
+        for keyword in string.gmatch(input, "[^,]+") do
+            local trimmed = trim(keyword)
+            if trimmed ~= "" then
+                table.insert(keywords, trimmed)
+            end
+        end
+        -- Sort case-insensitively
+        table.sort(keywords, function(a, b)
+            return string.lower(a) < string.lower(b)
+        end)
+        -- Rejoin with comma-space separator
+        return table.concat(keywords, ", ")
+    end
+    \end{luacode}
 %    \end{macrocode}
 %    \begin{macrocode}
 \fi
