@@ -1,0 +1,32 @@
+% \iffalse
+%<*lua>
+% \fi
+% \section{LuaLaTeX Support}
+%    \begin{macrocode}
+\RequirePackage{iftex}
+\ifLuaTeX
+  \RequirePackage{luacode}
+%    \end{macrocode}
+% This section documentss LuaLaTeX-specific code and features in the \texttt{skripsi} class.
+% \subsection{Abstract Word Count}
+%    \begin{macrocode}
+\begin{luacode}
+-- Word counter function
+function count_words(text)
+    local count = 0
+    -- Remove LaTeX commands and count words
+    text = text:gsub("\\%a+%*?%b{}", "")  -- Remove commands with arguments
+    text = text:gsub("\\%a+%*?", "")      -- Remove commands without arguments
+    for word in text:gmatch("%S+") do
+        count = count + 1
+    end
+    return count
+end
+\end{luacode}
+%    \end{macrocode}
+%    \begin{macrocode}
+\fi
+%    \end{macrocode}
+% \iffalse
+%</lua>
+% \fi

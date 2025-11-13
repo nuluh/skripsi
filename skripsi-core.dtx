@@ -1,0 +1,646 @@
+% \iffalse
+%<*core>
+% \fi
+% \section{Tinjauan Pustaka}
+% This section documents the core implementation of the \texttt{skripsi} class.
+% \begin{macro}{\RequirePackage}
+% Load the \textsf{kvoptions} package for key-value option handling.
+%    \begin{macrocode}
+\RequirePackage{kvoptions}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\SetupKeyvalOptions}
+% Setup the key-value options system with family name and prefix.
+%    \begin{macrocode}
+\SetupKeyvalOptions{
+    family=skripsikvopt,
+    prefix=skripsikvopt@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Boolean Options}
+%
+% \begin{macro}{\DeclareBoolOption}
+% Declare boolean options for draft marking and title display.
+% Default values: |draftmark=false|, |primarytitle=true|, |secondarytitle=true|.
+%    \begin{macrocode}
+\DeclareBoolOption[false]{draftmark}
+\DeclareBoolOption[true]{primarytitle}
+\DeclareBoolOption[true]{secondarytitle}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{String Options}
+%
+% \begin{macro}{\DeclareStringOption}
+% Declare string options for section numbering depth, table of contents depth,
+% and cover page style. Default values: |sectiondepth=3|, |tocdepth=3|, |cover=default|.
+%    \begin{macrocode}
+\DeclareStringOption[3]{sectiondepth}
+\DeclareStringOption[3]{tocdepth}
+\DeclareStringOption[default]{cover}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Complementary Options}
+%
+% Define complementary options that set boolean values to false.
+% |noprimarytitle| sets |primarytitle=false|, and 
+% |nosecondarytitle| sets |secondarytitle=false|.
+%    \begin{macrocode}
+\DeclareComplementaryOption{noprimarytitle}{primarytitle}
+\DeclareComplementaryOption{nosecondarytitle}{secondarytitle}
+%    \end{macrocode}
+%
+% Process all declared key-value options.
+%    \begin{macrocode}
+\ProcessKeyvalOptions*
+%    \end{macrocode}
+%
+% \begin{macro}{\LoadClass}
+% Load the base \textsf{book} class with A4 paper, 12pt font, and one-sided layout.
+%    \begin{macrocode}
+\LoadClass[a4paper,12pt,oneside]{book}
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{Package Dependencies}
+%Packages loaded by the class for layout, fonts, lists, and references.
+%    \begin{macrocode}
+\RequirePackage{polyglossia}
+\RequirePackage{fontspec}
+\RequirePackage{titling}
+\RequirePackage{fancyhdr}
+\RequirePackage{geometry}
+\RequirePackage{setspace}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{tikzpagenodes}
+\usetikzlibrary{calc}
+\RequirePackage{svg}
+\RequirePackage{etoolbox}
+\RequirePackage{tocbibind}
+\RequirePackage{indentfirst}
+\RequirePackage{float}
+\RequirePackage{atbegshi}
+\RequirePackage{amsmath,amsfonts,amssymb}
+\RequirePackage{hyperref}
+\RequirePackage{hyperxmp}
+\RequirePackage[acronym, nogroupskip, toc]{glossaries}
+%    \end{macrocode}
+%    
+%\begin{macro}{Language defaults}
+%Set main and other languages.
+%    \begin{macrocode}
+\setmainlanguage[variant=indonesian]{malay}
+\setotherlanguage{english}
+%    \end{macrocode}
+%\end{macro}
+%
+%\begin{macro}{Draft watermark}
+%Conditionally add a \textsf{draftwatermark} and line numbers.
+%    \begin{macrocode}
+\ifskripsikvopt@draftmark
+  \RequirePackage{draftwatermark}
+  \DraftwatermarkOptions{%
+    text={\sffamily\bfseries
+      DRAFT 
+      \href{https://github.com/nuluh/thesis}{%
+        \color{magenta}\fbox{\bfseries\normalsize\texttt{ver.\ 2025.j5}}%
+      }%
+      \ \normalsize{Copyright~\textcopyright~Rifqi D. Panuluh}%
+    },
+    color={[gray]{0.8}},
+    fontsize=1.5em,
+    angle=90,
+    hpos=20cm,
+    vpos=20cm
+  }
+  \RequirePackage[left]{lineno}
+  \linenumbers
+\fi
+%    \end{macrocode}
+%\end{macro}
+%
+% 
+% \begin{macro}{\skripsi@setup@layout}
+% Applies default margins and spacing for the thesis class.
+%    \begin{macrocode}
+\newcommand*\skripsi@setup@layout{%
+  \geometry{left=4cm, top=3cm, right=3cm, bottom=3cm}%
+  \setlength{\parskip}{0.5em}%
+}
+%    \end{macrocode}
+% \end{macro}
+% call it during class load
+%    \begin{macrocode}
+\skripsi@setup@layout
+%    \end{macrocode}
+%
+%\begin{macro}{Fonts}
+%Set fonts with \textsf{fontspec}.
+%    \begin{macrocode}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Times New Roman}[
+  SmallCapsFont  = {Latin Modern Roman}, % fallback for \textsc
+]
+\setsansfont{Arial}
+\setmonofont{Courier New}
+%    \end{macrocode}
+%\end{macro}
+%
+%\begin{macro}{Page styles}
+%Fancyhdr setups for main text and front matter.
+%    \begin{macrocode}
+\fancypagestyle{fancy}{%
+    \fancyhf{}
+    \fancyhead[R]{\nouppercase{\rightmark}}
+    \fancyhead[L]{\nouppercase{\leftmark}}
+    \fancyfoot[C]{\thepage}
+}
+\fancypagestyle{fancyplainfrontmatter}{%
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyfoot[C]{\thepage}
+}
+\fancypagestyle{fancyplain}{%
+    \fancyhf{}
+    \setlength{\headheight}{15pt} % avoid fancyhdr warning
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyhead[R]{\thepage}
+}
+%    \end{macrocode}
+%\end{macro}
+% 
+% define frontmatter hooks for page numbering name
+%    \begin{macrocode}
+\makeatletter
+%    \end{macrocode}
+%\begin{macro}{\mainmatter,\backmatter}
+%Back matter uses roman numerals while continuing the page counter from main matter.
+%    \begin{macrocode}
+\newcounter{savepagenumber}
+\renewcommand\frontmatter{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \skripsi@frontmatter@pagenumbering
+  \skripsi@frontmatter@pagestyle
+  \@mainmatterfalse
+}
+\renewcommand\mainmatter{%
+  \cleardoublepage
+  \setcounter{savepagenumber}{\value{page}}
+  \@mainmattertrue
+  \skripsi@mainmatter@pagenumbering
+  \skripsi@mainmatter@pagestyle
+}
+\renewcommand\backmatter{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \skripsi@backmatter@pagenumbering
+  \skripsi@backmatter@pagestyle
+  \setcounter{page}{\value{savepagenumber}}%
+  \@mainmatterfalse
+}
+%    \end{macrocode}
+%\end{macro}
+%
+% \section{Sectioning Style}
+% \begin{macro}{\skripsi@setup@sectioning}
+% Apply heading layout and numbering depth.
+%    \begin{macrocode}
+\RequirePackage{titlesec}
+\newcommand*\skripsi@setup@sectioning{%
+%    \end{macrocode}
+% \subsection{Chapter}
+%Chapter title is formatted as shown below to "BAB I", "BAB II", etc. where \verb|\chaptername| is defined in the polyglossia language settings,
+%    \begin{macrocode}
+\titlespacing{\chapter}{0pt}{0cm}{*1.5}
+\titleformat{\chapter}[display]
+  {\normalsize\bfseries\centering}
+  {\MakeUppercase\chaptername~\Roman{chapter}}
+  {1ex}
+%    \end{macrocode}
+% followed by chapter title text itself which uppercased.
+%    \begin{macrocode}
+  {\MakeUppercase}
+%    \end{macrocode}
+% \subsection{Section and Subsection}
+%The following line defines section and subsection formatting to normal size, bold font, followed with their respective numbering then horizontal separation between the numbering label and the title text.
+%    \begin{macrocode}
+\titleformat{\section}
+    {\normalsize\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+    {\normalsize\bfseries}{\thesubsection}{1em}{}
+%    \end{macrocode}
+%    Set section numbering depth to include up to \texttt{subsubsection} (1.1.1.1 Subsubsection).
+%    \begin{macrocode}
+\setcounter{secnumdepth}{3}
+}
+%    \end{macrocode}
+%\end{macro}
+% 
+% Then, sectioning setup during class load is applied.
+%    \begin{macrocode}
+\skripsi@setup@sectioning
+%    \end{macrocode}
+% 
+%\section{Cover Page}
+%\begin{macro}{\maketitle}
+% Redefine \cs{maketitle} to support multiple cover page styles with fallback options.
+% The macro first saves the original \cs{maketitle} from the book class, then provides
+% a flexible system that checks for user-defined cover pages in the \texttt{frontmatter/}
+% directory, with embedded fallback templates if custom files are not found.
+%
+% \subsection{Primary Title Page}
+%
+% Save the original \cs{maketitle} command before redefining it.
+%    \begin{macrocode}
+\let\original@maketitle\maketitle
+
+\renewcommand{\maketitle}{%
+%    \end{macrocode}
+%
+% If the |primarytitle| option is enabled, generate the primary cover page.
+% Three modes are supported based on the |cover| option:
+% \begin{itemize}
+%   \item |cover=legacy|: Uses the original book class \cs{maketitle}
+%   \item Custom file: Uses \texttt{frontmatter/maketitle.tex} if it exists
+%   \item Embedded: Uses the built-in template as fallback
+% \end{itemize}
+%    \begin{macrocode}
+  \ifskripsikvopt@primarytitle
+    \ifdefstring{\skripsikvopt@cover}{legacy}{%
+      \original@maketitle
+      \IfFileExists{frontmatter/maketitle.tex}{%
+      \ClassWarning{skripsi.cls}{Omit 'cover=legacy' option to use 
+                    user-defined primary cover page 
+                    'frontmatter/maketitle.tex'}
+      }{}%
+    }{%
+      \IfFileExists{frontmatter/maketitle.tex}{%
+        \input{frontmatter/maketitle}%
+        \ClassWarning{skripsi.cls}{Using user-defined cover page 
+                      'frontmatter/maketitle.tex'}%
+      }{%
+%    \end{macrocode}
+%
+% \subsubsection{Embedded Primary Cover Template}
+% If no custom file exists, use the embedded template with standard formatting:
+% centered layout, university logo, author information, and program details. But checking required metadata: |\title|, |\author|, |\date|, etc. first before proceeding. Due to the use of titling package, error handling is done different for title, author, and date.
+%    \begin{macrocode}
+      \ifdefined\thetitle\else \ClassError{skripsi.cls}{Missing \protect\title}{}\fi
+      \ifdefined\theauthor\else \ClassError{skripsi.cls}{Missing \protect\author}{}\fi
+      \ifdefined\thedate\else \ClassError{skripsi.cls}{Missing \protect\date}{}\fi
+      \@check{program}
+      \@check{faculty}
+      \@check{university}
+      \@check{yearofsubmission}
+%    \end{macrocode}
+% And then proceed to generate the cover page.
+%    \begin{macrocode}
+        {%
+          \begin{titlepage}
+          \newgeometry{margin=3cm}%
+          \noindent
+          \begin{minipage}[t][0.49\textheight][t]{\textwidth}
+          \centering
+          {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{Tugas Akhir}}\par}
+          \vspace{1.5cm}
+          {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{\thetitle}}\par}
+          \vfill
+          \end{minipage}
+          \begin{tikzpicture}[remember picture, overlay]
+              % This respects your geometry margins
+              \coordinate (center) at (current page text area.center);
+              
+              % The logo at center of page (ANCHOR POINT) shift up by 1cm
+              \node at ($(center) + (0cm,1cm)$)
+              {\includegraphics[width=5cm]{frontmatter/img/logo.png}};
+              
+              % --- Option A: diagonal across the whole paper ---
+              % \draw[red, line width=1pt] (current page.north west) -- (current page.south east);
+              % \draw[red, line width=1pt] (current page.north east) -- (current page.south west);
+              % % horizontal and vertical
+              % \draw[blue, line width=1pt] (current page.north) -- (current page.south);
+              % \draw[blue, line width=1pt] (current page.west) -- (current page.east);
+              % % horizontal line with 1cm up offset
+              % \draw[green, line width=1pt] ($(current page.west) + (0cm,1cm)$) -- ($(current page.east) + (0cm,1cm)$);
+
+          \end{tikzpicture}%
+          \begin{minipage}[b][0.49\textheight][b]{\textwidth}
+          \centering
+
+          \vfill
+
+          \textbf{Disusun oleh:} \\
+          {\fontsize{14pt}{16pt}\selectfont \textbf{\theauthor}} \\
+          {\fontsize{14pt}{16pt}\selectfont \textbf{\theauthorid}} \\
+
+          \vfill
+
+          {\fontsize{12pt}{14pt}\selectfont
+          \textbf{\MakeUppercase\theprogram} \\
+          \textbf{\MakeUppercase\thefaculty} \\
+          \textbf{\MakeUppercase\theuniversity} \\
+          \textbf{\theyearofsubmission}
+          }
+          \end{minipage}
+          \end{titlepage}%
+        }
+      }%
+    }%
+  \else
+%    \end{macrocode}
+%
+% If |primarytitle| is disabled but a custom file exists, warn the user.
+%    \begin{macrocode}
+      \IfFileExists{frontmatter/maketitle.tex}{%
+        \ClassWarning{skripsi.cls}{Omit 'noprimarytitle' option to use 
+                      user-defined cover page 
+                      'frontmatter/maketitle.tex'}%
+      }{}%
+  \fi
+%    \end{macrocode}
+%
+% \subsection{Secondary Title Page}
+%
+% If the |secondarytitle| option is enabled, generate the secondary cover page
+% after a page break. Similar to the primary page, it checks for a custom file
+% in \texttt{frontmatter/maketitle\_secondary.tex} and falls back to an
+% embedded template if not found.
+%    \begin{macrocode}
+  \ifskripsikvopt@secondarytitle
+    \clearpage
+    \IfFileExists{frontmatter/maketitle_secondary.tex}{%
+      \input{frontmatter/maketitle_secondary}%
+      \ClassWarning{skripsi.cls}{Using user-defined secondary cover page}
+    }{%
+%    \end{macrocode}
+%
+% \subsubsection{Embedded Secondary Cover Template}
+%
+% The embedded secondary template includes additional submission purpose text
+% and maintains similar styling to the primary cover. %TODO: secondary cover paragraph text
+%    \begin{macrocode}
+      {%
+        \begin{titlepage}
+        \newgeometry{margin=3cm, left=4cm}
+        \noindent
+        \begin{minipage}[t][0.49\textheight][t]{\textwidth}
+        \centering
+        {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{Tugas Akhir}}\par}
+        \vspace{1.5cm}
+        {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{\thetitle}}\par}
+        \vspace{1cm}
+        {\normalsize\selectfont Diajukan guna melengkapi persyaratan untuk memenuhi gelar Sarjana Teknik di Program Studi Teknik Sipil, Fakultas Teknik, Universitas Muhammadiyah Yogyakarta\par}
+        \vfill
+        \end{minipage}
+        \begin{tikzpicture}[remember picture, overlay]
+            % This respects your geometry margins
+            \coordinate (center) at (current page text area.center);
+            
+            % The logo at center of page (ANCHOR POINT) shift up by 1cm
+            \node at ($(center) + (0cm,1cm)$)
+                {\includegraphics[width=5cm]{frontmatter/img/logo.png}};
+
+            % --- Option A: diagonal across the whole paper ---
+            % \draw[red, line width=1pt] (current page.north west) -- (current page.south east);
+            % \draw[red, line width=1pt] (current page.north east) -- (current page.south west);
+            % % horizontal and vertical
+            % \draw[blue, line width=1pt] (current page.north) -- (current page.south);
+            % \draw[blue, line width=1pt] (current page.west) -- (current page.east);
+            % % horizontal line with 1cm up offset
+            % \draw[green, line width=1pt] ($(current page.west) + (0cm,1cm)$) -- ($(current page.east) + (0cm,1cm)$);
+        \end{tikzpicture}%
+        \begin{minipage}[b][0.49\textheight][b]{\textwidth}
+        \centering
+        \vfill
+
+        \textbf{Disusun oleh:} \\
+        {\fontsize{14pt}{16pt}\selectfont \textbf{\theauthor}} \\
+        {\fontsize{14pt}{16pt}\selectfont \textbf{\theauthorid}} \\
+        \vfill
+        {\fontsize{12pt}{14pt}\selectfont
+        \textbf{\MakeUppercase\theprogram} \\
+        \textbf{\MakeUppercase\thefaculty} \\
+        \textbf{\MakeUppercase\theuniversity} \\
+        \textbf{\theyearofsubmission}
+        }
+        \end{minipage}
+        \end{titlepage}%
+      }
+      \ClassWarning{skripsi.cls}{File frontmatter/maketitle_secondary.tex 
+                    not found, using embedded secondary cover page}%
+    }%
+  \else
+%    \end{macrocode}
+% 
+% If |secondarytitle| is disabled but a custom file exists, warn the user.
+%    \begin{macrocode}
+      \IfFileExists{frontmatter/maketitle_secondary.tex}{%
+        \ClassWarning{skripsi.cls}{Omit 'nosecondarytitle' option to use 
+                      user-defined secondary cover page 
+                      'frontmatter/maketitle_secondary.tex'}%
+      }{}%
+  \fi
+}
+%    \end{macrocode}
+%\end{macro}
+%
+%\section{Table of Contents, List of Figures, and List of Tables}
+%    \begin{macrocode}
+\RequirePackage[titles]{tocloft}
+%    \end{macrocode}
+% \subsection{Chapter}
+% Redefine printed chapter font in the table of contents to be UPPERCASED while keeping the actual string and pdf bookmark table of contents in Title Case.
+%  First, turns chapter name "Bab" to be UPPERCASED ("BAB").
+%    \begin{macrocode}
+\renewcommand{\cftchappresnum}{\MakeUppercase\chaptername~}
+%    \end{macrocode}
+%    Then followed with horizontal space then the chapter number.
+%    \begin{macrocode}
+\renewcommand{\cftchapaftersnum}{\quad}
+%    \end{macrocode}
+%    Finally, followed by the chapter title which also UPPERCASED.
+%    \begin{macrocode}
+\renewcommand{\cftchapfont}{\normalsize\MakeUppercase}
+%    \end{macrocode}
+% Following line is necessary to fix the error (thanks to \href{https://latex.org/forum/viewtopic.php?p=83118&sid=a22ccb456531faabf65070c18af69680#p83118}{Latex.org} for elegant solution). This is elegant approach since it preserves the actual string casing that is passed into |\chapter|, so it appears correctly in PDF bookmarks while displaying UPPERCASE in the printed table of contents.
+%    \begin{macrocode}
+\patchcmd{\l@chapter}
+  {\cftchapfont #1}% original
+  {\cftchapfont{#1}}% patched
+  {}{}            % success/failure handlers
+%    \end{macrocode}
+% \subsection{TOC, LOF, and LOT Length Settings}
+% See "Figure 1 Layout of a ToC (LoF, LoT)" in tocloft documentation entry for details.
+%    \begin{macrocode}
+\setlength{\cftbeforetoctitleskip}{0cm}
+\setlength{\cftbeforeloftitleskip}{0cm}
+\setlength{\cftbeforelottitleskip}{0cm}
+\setlength{\cftbeforechapskip}{0em}
+\setlength{\cftchapindent}{0pt}
+\setlength{\cftsecindent}{0em}
+\setlength{\cftsubsecindent}{2em}
+\setlength{\cftchapnumwidth}{3.5em}
+\setlength{\cftsecnumwidth}{2em}
+\setlength{\cftsubsecnumwidth}{2.5em}
+\setlength{\cftfignumwidth}{6em}
+\setlength{\cfttabnumwidth}{4em}
+\renewcommand \cftchapdotsep{1}
+\renewcommand \cftsecdotsep{1}
+\renewcommand \cftsubsecdotsep{1} 
+\renewcommand \cftfigdotsep{1.5}
+\renewcommand \cfttabdotsep{1.5}
+\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftchappagefont}{\normalfont}
+%    \end{macrocode}
+% \subsection{Figure and Table Numbering}
+% Redefine chapter and section numbering formats.
+%    \begin{macrocode}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand\thesection{\arabic{chapter}.\arabic{section}}
+%    \end{macrocode}
+% Redefine figure, table, and equation numbering to include chapter number as prefix. (e.g., Figure 1.1, Table 2.3, Equation 3.5)
+%    \begin{macrocode}
+\renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
+%    \end{macrocode}
+% Add "Gambar" and "Tabel" prefixes before figure and table numbers in the list of figures and list of tables.
+%    \begin{macrocode}
+\renewcommand{\cftfigpresnum}{\figurename~}
+\renewcommand{\cfttabpresnum}{\tablename~}
+%    \end{macrocode}
+% Redefine TOC, LOF, and LOT page titles to be centered, bold, and UPPERCASED. By giving \cs{hfill} before and after the title font command, the title is centered. This doesnt affects PDF bookmark entries, which remain in Title Case.
+%    \begin{macrocode}
+\renewcommand{\cfttoctitlefont}{\hfill\bfseries\MakeUppercase}
+\renewcommand{\cftaftertoctitle}{\hfill} % https://tex.stackexchange.com/a/255699/394075
+\renewcommand{\cftloftitlefont}{\hfill\bfseries\MakeUppercase}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\bfseries\MakeUppercase}
+%    \end{macrocode}
+% Set section numbering depth in the table of contents page according to the |tocdepth| option. This is different from PDF bookmark depth which is controlled by \textsf{hyperref} package. To set PDF bookmark depth, see |bookmarks| option in \textsf{hyperref}.
+%    \begin{macrocode}
+\setcounter{tocdepth}{\skripsikvopt@tocdepth}
+%    \end{macrocode}
+% \section{Abstract}
+% \subsection{Keywords}
+% Defined new macro with auto sorting. Thanks to \href{https://tex.stackexchange.com/a/333659}{\TeX{} StackExchange} for the idea.
+%    \begin{macrocode}
+\def\listterminator{;}
+\newcommand\alphabubblesort[1]{\def\presorted{}\def\sortedlist{}%
+  \sortlist#1,\listterminator,\relax}
+\def\sortlist#1#2,#3#4,#5\relax{%
+  \if\listterminator#3#4\relax%
+    \expandafter\def\expandafter\sortedlist\expandafter{\sortedlist#1#2}%
+  \else
+    \ifnum\the\lccode`#1<\the\lccode`#3\relax%
+      \expandafter\expandafter\expandafter\def\expandafter\expandafter%
+      \expandafter\sortedlist\expandafter\expandafter\expandafter{%
+      \expandafter\sortedlist\presorted#1#2, }%
+      \expandafter\def\expandafter\svfirst\expandafter{\presorted#3#4}%
+      \def\presorted{}%
+      \expandafter\sortlist\svfirst,#5\relax%
+    \else%
+      \ifnum`#1=`#3\relax%
+        \ifx\relax#2\relax%
+          \expandafter\expandafter\expandafter\def\expandafter\expandafter%
+          \expandafter\sortedlist\expandafter\expandafter\expandafter{%
+          \expandafter\sortedlist\presorted#1#2, }%
+          \expandafter\def\expandafter\svfirst\expandafter{\presorted#3#4}%
+          \def\presorted{}%
+          \expandafter\sortlist\svfirst,#5\relax%          
+        \else%
+          \ifx\relax#4\relax%
+            \expandafter\expandafter\expandafter\def\expandafter\expandafter%
+            \expandafter\sortedlist\expandafter\expandafter\expandafter{%
+            \expandafter\sortedlist\presorted#3#4, }%
+            \expandafter\def\expandafter\svfirst\expandafter{\presorted#1#2}%
+            \def\presorted{}%
+            \expandafter\sortlist\svfirst,#5\relax%
+          \else        
+            \g@addto@macro\presorted{#1}%
+            \sortlist#2,#4,#5\relax%
+          \fi%
+        \fi%
+      \else%
+        \let\tmp\sortedlist%
+        \def\sortedlist{}%
+        \expandafter\def\expandafter\svfirst\expandafter{\presorted#3#4}%
+        \expandafter\def\expandafter\svsecond\expandafter{\presorted#1#2}%
+        \def\presorted{}%
+        \expandafter\expandafter\expandafter\expandafter\expandafter%
+        \expandafter\expandafter\sortlist\expandafter\expandafter%
+        \expandafter\tmp\expandafter\svfirst\expandafter,\svsecond,#5\relax%
+      \fi%
+    \fi%
+  \fi%
+  }
+%    \end{macrocode}
+% \begin{macro}{\keywords}
+% \changes{v1.0}{2025/11/09}{Initial version}
+% And then define the |keywords| macro that uses the above sorting macro.
+%    \begin{macrocode}
+\newcommand{\keywords}[1]{%
+  \bigskip\noindent
+  \alphabubblesort{#1}
+  \ifnum\strcmp{\languagename}{malay}=0
+  Kata Kunci: \sortedlist%
+  \else
+    \textit{Keywords: \sortedlist}%
+  \fi
+%    \end{macrocode}
+%    Store the sorted keyword list globally for use in PDF metadata and sanitize the keywords for PDF strings: escape special characters (such as parentheses) and ensure proper Unicode encoding for PDF document information dictionaries. 
+%    \begin{macrocode}
+  \gdef\SortedKeywords{\sortedlist} \pdfstringdef\kwpdf{\SortedKeywords}%
+%    \end{macrocode}
+%    For XeLaTeX and xdvipdfmx workflows, directly embed the sanitized keywords into the PDF's document information dictionary. The last invocation of this special takes precedence.
+%    \begin{macrocode}
+  \immediate\special{pdf:docinfo << /Keywords (\kwpdf) >>}%
+%    \end{macrocode}
+%    Attempt to update hyperref's internal PDF metadata as well (harmless if hyperref is unavailable or already finalized).
+%    \begin{macrocode}
+  \hypersetup{pdfkeywords={\SortedKeywords}}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \subsection{Abstract Word Count Warning}
+% Due to limitations in pure LaTeX for text processing, we implement a LuaLaTeX-specific solution to count words in the abstract environment and issue a warning if it exceeds 5 words
+% \begin{environment}{abstract}
+% \changes{v1.0}{2025/11/09}{Initial version}
+%    \begin{macrocode}
+\newcommand{\theabstract}{}  % Initialize storage
+\makeatletter
+\newenvironment{abstract}{%
+  \global\let\oldabstract\theabstract
+  \gdef\theabstract{}%
+  \long\def\@captureabstract##1\end{abstract}{%
+    \gdef\theabstract{##1}%
+    \oldabstract
+  }%
+  \captureabstract
+  \ifLuaTeX
+    \directlua{
+        abstract_data = "\luaescapestring{\theabstract}"
+        abstract_count = count_words(abstract_data)
+    }
+    \ifnum\abstract_count>5
+      \ClassWarning{skripsi.cls}{Abstract exceeds 5 words in LuaLaTeX compilation.}%
+  \fi
+}{}
+\makeatother
+% This approach is tricky and error-prone
+%    \end{macrocode}
+% \end{environment}
+% \iffalse
+%</core>
+% \fi

@@ -1,0 +1,126 @@
+\usepackage{listings}
+\usepackage{accsupp}
+% \lstset{
+%   basicstyle=\ttfamily\small,
+%   columns=fullflexible,
+%   keepspaces=true,
+%   frame=single,
+%   breaklines=true
+% }
+\renewcommand{\thelstnumber}{% Line number printing mechanism
+  \protect\BeginAccSupp{ActualText={}}\arabic{lstnumber}\protect\EndAccSupp{}%
+}
+
+\lstset{
+    language={[LaTeX]TeX},
+        % numbers=left,
+        % numbersep=1em,
+        % numberstyle=\tiny,
+    frame=single,
+    framesep=\fboxsep,
+    framerule=\fboxrule,
+    rulecolor=\color{red},
+    xleftmargin=\dimexpr\fboxsep+\fboxrule\relax,
+    xrightmargin=\dimexpr\fboxsep+\fboxrule\relax,
+    breaklines=true,
+    breakatwhitespace=true,
+    basicstyle=\small\tt,
+    keywordstyle=\color{blue},
+    commentstyle=\color[rgb]{0.13,0.54,0.13},
+    backgroundcolor=\color{yellow!10},
+    tabsize=2,
+    columns=flexible,
+    morekeywords={maketitle},
+}
+\usepackage{dtxdescribe}
+\usepackage{geometry}
+\geometry{
+  marginparwidth=6cm,   % Width of margin notes
+  marginparsep=10pt,      % Separation
+  textwidth=12cm,         % Adjust text width accordingly
+  left=6cm,
+}
+% Redefine \DescribeOption to use the options index
+% \usepackage{index}
+% \newindex{default}{idx}{ind}{General Index}
+% \newindex{options}{odx}{ond}{Index of Options}
+% \newindex{lengths}{ldx}{lnd}{Index of Lengths}
+% \newindex{envs}{edx}{end}{Index of Environments}
+% \makeatletter
+% \renewcommand*{\DescribeOption}[1]{%
+%   \leavevmode\@bsphack
+%   \marginpar{\raggedleft\PrintDescribeOption{#1}}%
+%   \index[options]{#1\actualchar{\protect\ttfamily#1}}%
+%   \@esphack\ignorespaces
+% }
+
+% % Similarly for lengths
+% \newcommand*{\DescribeLength}[1]{%
+%   \leavevmode\@bsphack
+%   \marginpar{\raggedleft\PrintDescribeOption{#1}}%
+%   \index[lengths]{#1\actualchar{\protect\ttfamily#1}}%
+%   \@esphack\ignorespaces
+% }
+\usepackage[skins,listings,breakable,raster]{tcolorbox}
+
+\lstdefinestyle{estiloExemVerm}{
+  numbers=left,
+  numbersep=1em,
+  numberstyle=\tiny,
+  frame=single,
+  framesep=\fboxsep,
+  framerule=\fboxrule,
+  xleftmargin=\dimexpr\fboxsep+\fboxrule\relax,
+  xrightmargin=\dimexpr\fboxsep+\fboxrule\relax,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true,
+  breakindent=0pt,
+  tabsize=2,
+  columns=flexible,
+  language={[LaTeX]TeX},
+  aboveskip=0.1em,
+  belowskip=1.0em,
+  basicstyle=\small\ttfamily\hbox{},
+  pos=r,
+  width=0.5\linewidth,
+  preset=\small\setlength{\parindent}{10pt},
+  extendedchars=true,
+  keywordstyle=\color{red},
+  rulecolor=\color{red},
+  backgroundcolor=\color{white}
+}
+
+\newtcbinputlisting[]{\mytcbRed}[2][]{%
+  bicolor,
+  lower separated=true,
+  colbacklower=white,
+  fonttitle=\large\sffamily\bfseries,
+  breakable,
+  listing and text,
+  colframe=red!70!black, colback=red!10!white, coltitle=red!10!white,
+  sidebyside,
+  overlay={
+    \draw[dashed, red!80!black,thick] (segmentation.north)--(segmentation.south);
+  },
+  listing options={style=estiloExemVerm},
+  listing file={#2}, #1
+}
+
+\newtcbinputlisting[]{\mytcbInputListing}[4][]{%
+  enhanced,
+  colback=red!10!white, colframe=red!70!black, fonttitle=\large\sffamily\bfseries,
+  bicolor, colbacklower=white,
+  listing and comment,
+  overlay={
+    \draw[dashed, red!80!black,thick] (segmentation.east)--(segmentation.west);
+  },
+  % multiple snippets \lstinputlisting
+  before upper={\lstinputlisting[style=estiloExemVerm]{#2}\vspace{1em}\lstinputlisting[style=estiloExemVerm]{#3}},
+  listing options={style=estiloExemVerm},
+  listing file={#4.tex},
+  pdf comment={#4.pdf},
+  comment style={raster columns=2, colframe=red!85!black, boxrule=2pt}, %drop fuzzy shadow,  %shadow={2mm}{-2mm}{0mm}{black!50!white},
+  %  graphics options={viewport=5cm 24.5cm 8cm 25.5cm,clip},
+  #1,
+}

@@ -1,0 +1,44 @@
+% multititle.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{multititle}[2025/11/11 Custom title with language variants]
+
+% Load required packages
+\RequirePackage{letltxmacro}
+\RequirePackage{xkeyval}
+
+% Save the titling-modified \title command
+% This happens AFTER titling is loaded by \RequirePackage
+\LetLtxMacro\titlingoriginal\title
+\LetLtxMacro\authororiginal\author
+
+% Define keys for language variants
+\define@key{titlekeys}{en}{\gdef\@title@en{#1}}
+\define@key{titlekeys}{id}{\gdef\@title@id{#1}}
+\define@key{titlekeys}{fr}{\gdef\@title@fr{#1}}
+\define@key{titlekeys}{es}{\gdef\@title@es{#1}}
+
+% Initialize to empty
+\gdef\@title@en{}
+\gdef\@title@id{}
+\gdef\@title@fr{}
+\gdef\@title@es{}
+
+% Redefine \title to accept optional key-value arguments
+\renewcommand{\title}[2][]{%
+  \setkeys{titlekeys}{#1}%     % Process optional key-value pairs
+%   \gdef\@maintitle{#2}%        % Store main title
+  \titlingoriginal{#2}%        % Call titling's \title (defines \thetitle)
+}
+\renewcommand{\author}[2][]{%
+  \authororiginal{#2}%        % Call titling's \author
+  \gdef\@authorid{#1}%
+}
+
+% User-friendly commands to access the titles
+\newcommand{\themaintitle}{\@maintitle}
+\newcommand{\thetitleen}{\@title@en}
+\newcommand{\thetitleid}{\@title@id}
+\newcommand{\thetitlefr}{\@title@fr}
+\newcommand{\thetitlees}{\@title@es}
+
+\endinput

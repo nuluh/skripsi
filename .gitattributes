@@ -1,0 +1,2 @@
+// git lfs for png file
+*.png filter=lfs diff=lfs merge=lfs -text

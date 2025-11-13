@@ -1,0 +1,68 @@
+\documentclass{skripsi}
+\usepackage{skripsi-telu-if}
+\usepackage{booktabs}
+\usepackage{lipsum}
+\title[
+en={Road Damage Prediction with Machine Learning}, 
+id={Prediksi Kerusakan Jalan Raya dengan Machine Learning}
+]{Prediksi Kerusakan Jalan Raya dengan Machine Learning}
+\author[1234567890]{Asep Bensin}
+\date{\today}
+\firstadvisor[1234567890]{Dr.\ Ir.\ Ujang Sufahri, M.Eng.}
+\secondadvisor[1234567890]{Prof.\ Dr.\ Bambang Supriyanto, M.Sc.}
+\headdepartment[1234567890]{Dr.\ Eng.\ Siti Aminah, M.T.}
+\addbibresource{final.bib}
+
+\begin{document}
+\frontmatter
+\maketitle
+\approvalpage
+\originalitystatement
+\onehalfspacing
+\tableofcontents
+\listoffigures
+\listoftables
+\begin{abstract}
+\lipsum[1-2]
+\end{abstract}
+\mainmatter
+\onehalfspacing
+\chapter{Lorem}
+\section{Consectetur}
+\lipsum[1-3]
+\subsection{Sit Amet}
+\lipsum[4-6]
+\subsubsection{Consectetur}
+\lipsum[7-9]
+\chapter{Ipsum}
+\section{Amet}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-b}
+    \caption{Contoh Gambar}
+    \label{fig:contoh-gambar}
+\end{figure}
+\lipsum[10-12]
+\begin{table}[H]
+    \centering
+    \caption{Parameter-parameter dalam pencarian \textit{grid} tahap pertama (\textit{coarse grid-search}) untuk optimasi \textit{hyperparameter} model SVM.}
+    \label{tab:grid_search_parameters}
+    \begin{tabular}{lll}
+        \toprule
+        Parameter & Nilai yang Diuji & Jumlah Nilai \\
+        \midrule
+        % kernel
+        kernel & RBF & 1 \\
+        % regularization parameter
+        $C$ & $\left\{ 2^{\,x} \,\middle|\, x \in \{-5, 0, 5, 10, 15\} \right\}$ & 5 \\
+        $\gamma$ & $\left\{ 2^{\,x} \,\middle|\, x \in \{-15, -10, -5, 0, 5\} \right\}$ & 5 \\
+        $n_{components}$ & $\{512, 256, 128, 64, 32, 16, 8, 4\}$ & 8 \\
+        \midrule
+        Total Kombinasi & & 200 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\nocite{*}
+\printbibliography[heading=bibintoc]
+
+\end{document}

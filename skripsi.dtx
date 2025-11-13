@@ -1,0 +1,371 @@
+% \iffalse meta-comment
+% !TEX program  = xelatex
+%<*internal>
+\iffalse
+%</internal>
+%<*readme>
+----------------------------------------------------------------
+thesis --- A Bachelor Thesis class
+E-mail: you@your.domain
+Released under the LaTeX Project Public License v1.3c or later
+See https://www.latex-project.org/lppl.txt
+----------------------------------------------------------------
+
+A LaTeX class for bachelor theses. Provides options for draft watermarking,
+primary/secondary title toggles, page styles, chapter formatting, APA biblatex,
+and multilingual setup via polyglossia.
+%</readme>
+%<*internal>
+\fi
+\def\nameofplainTeX{plain}
+\ifx\fmtname\nameofplainTeX\else
+  \expandafter\begingroup
+\fi
+%</internal>
+%<*install>
+\input docstrip.tex
+\keepsilent
+\askforoverwritefalse
+\preamble
+----------------------------------------------------------------
+thesis --- A Bachelor Thesis class
+E-mail: you@your.domain
+Released under the LaTeX Project Public License v1.3c or later
+See https://www.latex-project.org/lppl.txt
+----------------------------------------------------------------
+
+\endpreamble
+\postamble
+
+Copyright (C) 2025
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License (LPPL), either
+version 1.3c of this license or (at your option) any later
+version.  The latest version of this license is in the file:
+
+https://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status) by
+You.
+
+This work consists of the file  thesis.dtx
+and the derived files           thesis.ins,
+                                thesis.pdf and
+                                thesis.cls.
+
+\endpostamble
+\usedir{tex/latex/thesis}
+\generate{
+  \file{\jobname.cls}{\from{\jobname.dtx}{class}
+                      \from{\jobname-lua.dtx}{lua}
+                      \from{\jobname-core.dtx}{core}
+                      \from{\jobname-hooks.dtx}{hooks}
+                      \from{\jobname-metadata.dtx}{metadata}}
+}
+%</install>
+%<install>\endbatchfile
+%<*internal>
+\usedir{source/latex/thesis}
+\generate{
+  \file{\jobname.ins}{\from{\jobname.dtx}{install}}
+}
+\nopreamble\nopostamble
+\usedir{doc/latex/thesis}
+\generate{
+  \file{README.txt}{\from{\jobname.dtx}{readme}}
+}
+\ifx\fmtname\nameofplainTeX
+  \expandafter\endbatchfile
+\else
+  \expandafter\endgroup
+\fi
+%</internal>
+%<*class>
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{skripsi}[2025/05/10 Bachelor Thesis Class]
+%</class>
+%<*driver>
+\documentclass[oneside]{ltxdoc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[numbered]{hypdoc}
+\usepackage{showexpl}
+\input{demopkg.def}
+\MakeShortVerb{\|} % handy for inline verbatim, as ltxdoc does
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\title{\textsf{skripsi} --- Base Class \thanks{ This file describes version \fileversion, last revised \filedate.}
+}
+\author{
+  Rifqi D. Panuluh\thanks{E-mail: rifqi.damar.ft21@mail.umy.ac.id}
+}
+\date{Released \today}
+\begin{document}
+\maketitle
+\tableofcontents
+  \DocInput{\jobname.dtx}
+  \DocInput{\jobname-lua.dtx}
+  \DocInput{\jobname-core.dtx}
+  \DocInput{\jobname-hooks.dtx}
+  \DocInput{\jobname-metadata.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+%\GetFileInfo{\jobname.cls}
+%\changes{v1.0}{2025/05/10}{Initial public release}
+% \newpage
+%\section{Ringkasan}
+% After years of battling mysterious margin shifts, inconsistent numbering, and tables that refused to stay put, this package was born as an act of desperation disguised as innovation. \textsf{skripsi.cls} provides a clean, faculty-compliant \LaTeX{} class for writing undergraduate theses in Indonesia without selling your soul to Microsoft Word. It automates the formatting nightmares most students encounter at 3~a.m.\ and pretends to make everything look professional.  While it cannot fix your procrastination, it may at least compile without errors (sometimes).  Use responsibly, cite mercifully, and remember: \emph{“beneran fix”} is a state of mind, not a guarantee.
+%\section{Latar Belakang}
+% Latar belakang berisi uraian tentang alasan-alasan yang mendukung penelitian pada tugas akhir ini layak untuk diangkat. Permasalahan-permasalahan juga dijelaskan guna untuk memperkuat pentingnya penelitian tugas akhir ini dilaksanakan. Satu paragraf disarankan berisi satu kalimat utama dan beberapa kalimat pendukung, dengan jumlah kalimat antara tiga hingga lima kalimat untuk setiap paragraf.f
+% \section{Rumusan Masalah}
+% \begin{enumerate}
+%  \item Bagaimana mendokumentasikan makro kelas menggunakan format \texttt{.dtx}?
+%  \item Bagaimana menampilkan contoh yang “langsung jalan” tanpa gambar tangkapan layar?
+%  \item Bagaimana menjaga konsistensi tampilan (BAB, header, nomor halaman) dengan skripsi?
+%  \end{enumerate}
+% \section{Tujuan}
+% Dokumen ini menunjukkan pola dokumentasi berbasis \texttt{.dtx} dengan gaya skripsi, meliputi penggunaan \verb|\DescribeMacro|, struktur DocStrip, dan contoh langsung memakai \textsf{showexpl}.
+% 
+% \section{Manfaat}
+% Pembaca memperoleh pedoman praktis untuk:
+% \begin{enumerate}
+%  \item Menulis dokumentasi yang terintegrasi dengan kelas.
+%  \item Menghasilkan contoh yang dapat dijalankan di tempat.
+%  \item Memelihara satu sumber untuk kode dan dokumentasi.
+% \end{enumerate}
+% 
+% \section{Batasan}
+% Pembahasan berfokus pada dokumentasi kelas \texttt{skripsi} dan paket pendukung umum. Integrasi khusus kampus bisa ditambahkan kemudian.
+%\section{Loading the class}
+%
+%\DescribeMacro{\documentclass}
+%Load the class in the usual way, optionally passing \meta{options}:
+%\begin{verbatim}
+%\documentclass[12pt,oneside]{skripsi}
+%\end{verbatim}
+%
+% \section{Add Metadata}
+% Add the following mandatory metadata to the preamble of your document as shown:
+% \iffalse
+%<*example>
+% \fi
+ \begin{lstlisting}[language=TeX]
+ \documentclass{skripsi}
+ \title{Judul Skripsi}
+ \author{John Doe}
+ \date{\today}
+ \authorid{20170140011}
+ \secondadvisor{Prof. Alice, S.T., M.Eng., Ph.D.}
+ \firstexaminer{Prof. Bob S.T., M.Eng., Ph.D. (Eng.)}
+ \headdepartement{Charlie M., S.T., M.Sc., Ph.D.}
+ \headdepartementid{19241604215103721279}
+ \faculty{Fakultas Teknik}
+ \program{Program Studi Teknik Sipil}
+ \university{Universitas Mana Saja}
+ \yearofsubmission{\the\year}
+ \end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+%
+% \section{Frontmatter}
+% \subsection{Add title page (cover)}
+% Create file called \verb|frontmatter/maketitle.tex| and design your primary title page (cover) there. You can also create a secondary title page in \verb|frontmatter/maketitle_secondary.tex| if needed:
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}
+% frontmatter/maketitle.tex
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{Tugas Akhir}}\par}
+\vspace{1.5cm}
+
+{\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{\thetitle}}\par}
+\vspace{1.5cm}
+
+\includegraphics[width=5cm]{frontmatter/img/logo.png}
+\vspace{1.5cm}
+
+\textbf{Disusun oleh:} \\
+{\fontsize{14pt}{16pt}\selectfont \textbf{\theauthor}} \\
+{\fontsize{14pt}{16pt}\selectfont \textbf{\theauthorid}} \\
+
+\vfill
+
+{\fontsize{12pt}{14pt}\selectfont
+\textbf{\MakeUppercase\theprogram} \\
+\textbf{\MakeUppercase\thefaculty} \\
+\textbf{\MakeUppercase\theuniversity} \\
+\textbf{\theyearofsubmission}
+}
+
+\end{titlepage}%
+\end{lstlisting}
+% 
+%\begin{lstlisting}
+% frontmatter/maketitle_secondary.tex
+\begin{titlepage}
+\centering
+{\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{Tugas Akhir}}\par}
+\vspace{1.5cm}
+
+{\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{\thetitle}}\par}
+\vspace{1cm}
+{\normalsize\selectfont Diajukan guna melengkapi persyaratan untuk memenuhi gelar Sarjana Teknik di Program Studi Teknik Sipil, Fakultas Teknik, Universitas Muhammadiyah Yogyakarta\par}
+\vspace{1.5cm}
+
+\includegraphics[width=5cm]{frontmatter/img/logo.png}
+\vspace{1.5cm}
+
+\textbf{Disusun oleh:} \\
+{\fontsize{14pt}{16pt}\selectfont \textbf{\theauthor}} \\
+{\fontsize{14pt}{16pt}\selectfont \textbf{\theauthorid}} \\
+
+
+\vfill
+
+{\fontsize{12pt}{14pt}\selectfont
+\textbf{\MakeUppercase\theprogram} \\
+\textbf{\MakeUppercase\thefaculty} \\
+\textbf{\MakeUppercase\theuniversity} \\
+\textbf{\theyearofsubmission}
+}
+
+\end{titlepage}%
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+% \DescribeMacro{\maketitle}
+% Create the title page(s) by calling \cs{maketitle}. You should define the layout first in \verb|frontmatter/maketitle.tex| and \verb|frontmatter/maketitle_secondary.tex|. Then, in your document preamble or main file, simply call \cs{maketitle} to include them.
+% \iffalse
+%<*example>
+% \fi
+%  \begin{lstlisting}
+  % main.tex
+  \documentclass{skripsi}
+  % ... metadata as shown above ...
+  \begin{document}
+  \frontmatter
+  \maketitle
+  \mainmatter
+  % ...
+  \backmatter
+  \end{document}
+  \end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+% \subsection{Table of Contents}
+% \DescribeMacro{\tableofcontents} \DescribeMacro{\listoffigures} \DescribeMacro{\listoftables}
+% Call this macro to print table of contents (Daftar Isi), figures (Daftar Gambar), and tables (Daftar Tabel).
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}
+% main.tex
+\documentclass{skripsi}
+% ... metadata as shown above ...
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents
+\listoffigures
+\listoftables
+\mainmatter
+% ...
+\backmatter
+\end{document}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+%\section{Mainmatter}
+%The main content of your thesis goes here, starting with \cs{mainmatter}.
+% \subsection{Chapters, Section, Subsection, and Subsubsection}
+% Use \cs{chapter}, \cs{section}, \cs{subsection}, and \cs{subsubsection} as usual to create chapters and sections. The class automatically formats them according to the thesis guidelines. You can refactor the content into separate files and \cs{input} them as needed for readibility.
+% \iffalse
+%<*example>
+% \fi
+% \begin{lstlisting}
+% chapters/chapter1.tex
+\chapter{Pendahuluan}
+\section{Latar Belakang}
+ Your content here...
+\subsection{Subsection Example}
+Your content here...
+\subsubsection{Subsubsection Example}
+Your content here...
+\section{Rumusan Masalah}
+\begin{enumerate}
+  \item problem 1
+  \item problem 2
+  \item problem 3
+\end{enumerate}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+% and then load in your main file with \cs{include}:
+% \iffalse
+%<*example>
+% \fi
+% \begin{lstlisting}
+% main.tex
+\documentclass{skripsi}
+% ... metadata as shown above ...
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents
+\listoffigures
+\listoftables
+\mainmatter
+\include{chapters/chapter1}
+\include{chapters/chapter2}
+\include{chapters/chapter3}
+...
+\backmatter
+\end{document}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+%\section{Backmatter}
+% \cs{backmatter} is called here to switch format including change numbering to roman numerals for appendices, bibliography, and index. You can omit numbering by calling \cs{pagestyle\{empty\}}.
+% 
+%\section{Class options}
+%
+%\DescribeOption{draftmark}
+%Enable a vertical \emph{DRAFT} watermark and line numbers for review.
+%
+%\DescribeOption{noprimarytitle}
+%Disable printing of the primary title block.
+%
+%\DescribeOption{nosecondarytitle}
+%Disable printing of the secondary title block.
+%
+%\section{Language setup}
+%The class uses \textsf{polyglossia}. By default the main language is set to
+%Indonesian via Malay, with English as an \cs{setotherlanguage}. Adjust in your
+%preamble if your institution demands otherwise.
+%
+%\section{Bibliography}
+%This class configures \textsf{biblatex} with the APA style and curated options.
+%Feel free to override in your preamble with a custom \cs{ExecuteBibliographyOptions}.
+% 
+% \section{Chapter and Section Formatting}
+% \cs{skripsi@setup@sectioning} internal hook apply the formatting and numbering.
+%
+%\StopEventually{^^A
+%  \PrintChanges
+%  \PrintIndex
+%}
+%\Finale

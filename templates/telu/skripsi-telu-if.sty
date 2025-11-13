@@ -1,0 +1,230 @@
+%% skripsi-telu-if.sty
+%% Universitas Telkom Undergraduate Thesis Style
+%% Based on Tel-U BIF template
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{skripsi-telu-if}[2025/01/01 v1.0 Universitas Telkom Undergraduate Thesis Style]
+
+\makeatletter
+%---------------------------------------
+% LOAD BASE COMPONENTS
+%---------------------------------------
+% Ensure skripsi class is loaded
+\@ifclassloaded{skripsi}{}{%
+  \PackageError{skripsi-telu-if}{%
+    This package requires 'skripsi.cls' document class%
+  }{%
+    Use: \protect\documentclass{skripsi}%
+  }%
+}
+
+%---------------------------------------
+% METADATA
+%---------------------------------------
+
+\program{Program Studi Sarjana Informatika}
+\faculty{Fakultas Informatika}
+\university{Universitas Telkom}
+\city{Bandung}
+\yearofsubmission{\the\year}
+
+%---------------------------------------
+% PAGE GEOMETRY
+%---------------------------------------
+
+\RequirePackage{geometry}
+\geometry{
+  a4paper,
+  top=3cm,
+  bottom=3cm,
+  left=4cm,
+  right=3cm
+}
+
+% hypersetup
+%---------------------------------------
+% HYPERREF SETUP
+%---------------------------------------
+\RequirePackage{hyperref}
+\hypersetup{
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+}
+%---------------------------------------
+% FONTS SIZE
+%---------------------------------------
+\newcommand\llarge{\@setfontsize\llarge{16}{19.2}}
+
+%---------------------------------------
+% PAGE STYLE
+%---------------------------------------
+\fancypagestyle{plain}{
+    \fancyhf{}
+    % \setlength{\headheight}{15pt} % to avoid fancyhdr warning
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyfoot[R]{\thepage}
+}
+\fancypagestyle{bottomrightcorner}{
+    \fancyhf{}
+    % \setlength{\headheight}{15pt} % to avoid fancyhdr warning
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyfoot[R]{\thepage}
+}
+
+%---------------------------------------
+% BOOK MATTER FORMATTING
+%---------------------------------------
+\renewcommand{\skripsi@mainmatter@pagestyle}{\pagestyle{bottomrightcorner}}
+
+%---------------------------------------
+% CHAPTER FORMATTING
+%---------------------------------------
+
+\titleformat{\chapter}[block]
+  {\large\bfseries\centering}
+  {\MakeUppercase\chaptername~\arabic{chapter}} % << display format
+  {1ex}
+  {\MakeUppercase}
+
+\titlespacing{\chapter}{0pt}{0cm}{\baselineskip}
+
+%---------------------------------------
+% TABLE OF CONTENTS FORMATTING
+%---------------------------------------
+\renewcommand{\thechapter}{\arabic{chapter}}
+\setlength{\cftsecindent}{1em}
+\setcounter{tocdepth}{2}
+\makeatother
+%---------------------------------------
+% TITLE PAGE
+%---------------------------------------
+\renewcommand{\maketitle}{
+\begin{titlepage}
+
+\centering
+{\llarge\selectfont \textbf{\MakeUppercase{\thetitle}}}
+\vspace{1.5cm}
+
+{\textbf{Tugas Akhir}\par}
+{\textbf{%
+diajukan untuk memenuhi salah satu syarat memperoleh gelar sarjana \\
+dari \theprogram, \\
+\thefaculty \\
+\theuniversity}\par}
+
+\vfill
+
+{\textbf{\theauthor}\par}
+{\textbf{\theauthorid}\par}
+
+\vspace{\baselineskip}
+
+\includegraphics[width=3.6cm]{logo.png}
+
+\vfill
+
+{\llarge\selectfont
+\textbf{\theprogram} \par
+\textbf{\thefaculty} \par
+\textbf{\theuniversity} \par
+\textbf{\thecity} \par
+\textbf{\theyearofsubmission} \par}
+
+\end{titlepage}%
+}
+
+% -------------------------------------
+% APPROVAL PAGE
+% -------------------------------------
+\newcommand{\approvalpage}{
+\begin{centering}
+\chapter{Lembar Pengesahan}
+
+{\large\textbf{\MakeUppercase\thetitle}\par}
+\vspace{\baselineskip}
+{\large\textit{\textbf{\MakeUppercase\thetitleen}}\par}
+\vspace{\baselineskip}
+{\large\textbf{\theauthor}\par}
+{\large\textbf{\theauthorid}\par}
+\vspace{\baselineskip}
+{Tugas akhir ini telah diterima dan disahkan untuk memenuhi sebagai syarat memperoleh gelar pada \theprogram\par}
+{\thefaculty\par}
+{\theuniversity\par}
+\vspace{\baselineskip}
+{\thecity, \thedate\par}
+{Menyetujui,\par}
+\vspace{\baselineskip}
+\begin{center}
+\begin{tabular}{cc}
+    Pembimbing I, & Pembimbing II, \\[2.5cm]
+    \thefirstadvisor & \thesecondadvisor \\
+    NIP:\thefirstadvisorid & NIP:\thesecondadvisorid
+\end{tabular}
+\end{center}
+\vspace{\baselineskip}
+\begin{center}
+\begin{tabular}{c}
+    Ketua Program Studi \\ \theprogram, \\[2.5cm]
+    \theheaddepartment \\
+    NIP: \theheaddepartmentid
+\end{tabular}
+\end{center}
+\end{centering}
+}
+
+%---------------------------------------
+% ORIGINALITY STATEMENT PAGE
+%---------------------------------------
+\newcommand{\originalitystatement}{
+  % frontmatter/originality.tex
+\chapter{Lembar Orisinalitas}
+\onehalfspacing
+Dengan ini saya, \theauthor, menyatakan sesungguhnya bahwa Tugas Akhir saya dengan judul ''\thetitle'' beserta dengan seluruh isinya merupakan hasil karya saya sendiri, dengan tidak melakukan penjiplakan yang tidak sesuai dengan etika keilmuan yang berlaku dengan masyarakat keilmuan, serta produk dari tugas akhir ini bukan merupakan hasil dari Generative AI. Saya siap menggung risiko/sanksi yang diberikan jika di kemudian hari ditemukan pelanggaran terhadap etika keilmuan dalam Laporan Tugas Akhir, atau jika ada klaim dari pihak lain terhadap keaslian karya.\par
+
+\begin{flushright}
+\begin{minipage}{0.5\textwidth}
+\centering
+\thecity, \today \\
+Yang menyatakan, \\[0.5cm] % space for signature
+% Materai box
+\hspace*{-3cm}% shift the box slightly left
+\begin{tabular}{@{}c@{}}
+  \fbox{
+    \begin{minipage}[c][1.8cm][c]{1.6cm}
+      \centering
+      Materai\\
+      6000
+    \end{minipage}
+  }
+\end{tabular}
+\\[1cm]
+% \rule{6cm}{0.4pt} % signature line
+\theauthor \\ NIM \theauthorid
+\end{minipage}
+\end{flushright}
+}
+
+% biblatex
+%---------------------------------------
+% BIBLATEX SETUP
+%---------------------------------------
+\RequirePackage[style=ieee, backend=biber]{biblatex}
+\ExecuteBibliographyOptions{
+    alltimes=24h,
+    datezeros=false,
+    dateera=secular,
+    dateeraauto=600,
+    dateuncertain=true,
+    datecirca=true,
+    sorting=none,
+    url=false,
+    doi=false,
+    isbn=false
+}
+% \DefineBibliographyStrings{malay}{
+%   bibliography = {My Custom Title},
+% }
+\AtBeginDocument{%
+  \renewcommand{\bibname}{Daftar Pustaka}%
+}
+
+\endinput

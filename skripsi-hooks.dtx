@@ -1,0 +1,30 @@
+% \iffalse
+%<*hooks>
+% \fi
+% 
+% \section{Custom Hooks}
+% This section documents custom hooks added to the \texttt{skripsi} class for further
+%    \begin{macrocode}
+\makeatletter
+%    \end{macrocode}
+% 
+% \subsection{Book Matter Hooks}
+% The class provides hooks to customize the |\frontmatter|, |\mainmatter|, and |\backmatter| sections of the document.
+% \subsubsection{Page Numbering}
+%    \begin{macrocode}
+\newcommand{\skripsi@frontmatter@pagenumbering}{\pagenumbering{roman}}
+\newcommand{\skripsi@mainmatter@pagenumbering}{\pagenumbering{arabic}}
+\newcommand{\skripsi@backmatter@pagenumbering}{\pagenumbering{roman}}
+%    \end{macrocode}
+% \subsubsection{Page Style}
+%    \begin{macrocode}
+\newcommand{\skripsi@frontmatter@pagestyle}{\pagestyle{fancyplain}}
+\newcommand{\skripsi@mainmatter@pagestyle}{\pagestyle{fancyplain}}
+\newcommand{\skripsi@backmatter@pagestyle}{\pagestyle{fancyplain}}
+%    \end{macrocode}
+%    \begin{macrocode}
+\makeatother
+%    \end{macrocode}
+% \iffalse
+%</hooks>
+% \fi

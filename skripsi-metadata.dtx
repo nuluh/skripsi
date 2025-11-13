@@ -1,0 +1,147 @@
+% \iffalse
+%<*metadata>
+% \fi
+% \section{Metadata}
+% \subsection{Private Storage Macros}
+%    \begin{macrocode}
+\makeatletter
+\newcommand{\@authorid}{}
+\newcommand{\@firstadvisor}{}
+\newcommand{\@firstadvisorid}{}
+\newcommand{\@secondadvisor}{}
+\newcommand{\@secondadvisorid}{}
+\newcommand{\@firstexaminer}{}
+\newcommand{\@firstexaminerid}{}
+\newcommand{\@secondexaminer}{}
+\newcommand{\@secondexaminerid}{}
+\newcommand{\@headdepartment}{}
+\newcommand{\@headdepartmentid}{}
+\newcommand{\@faculty}{}
+\newcommand{\@program}{}
+\newcommand{\@university}{}
+\newcommand{\@city}{}
+\newcommand{\@yearofsubmission}{}
+%    \end{macrocode}
+%    
+% \subsection{Setter Macros}
+% Define user commands with optional ID arguments to set these values.
+%    \begin{macrocode}
+\newcommand{\firstadvisor}[2][]{\gdef\@firstadvisor{#2}\gdef\@firstadvisorid{#1}}
+\newcommand{\secondadvisor}[2][]{\gdef\@secondadvisor{#2}\gdef\@secondadvisorid{#1}}
+\newcommand{\firstexaminer}[2][]{\gdef\@firstexaminer{#2}\gdef\@firstexaminerid{#1}}
+\newcommand{\secondexaminer}[2][]{\gdef\@secondexaminer{#2}\gdef\@secondexaminerid{#1}}
+\newcommand{\headdepartment}[2][]{\gdef\@headdepartment{#2}\gdef\@headdepartmentid{#1}}
+%    \end{macrocode}
+% Commands without ID arguments
+%    \begin{macrocode}
+\newcommand{\faculty}[1]{\gdef\@faculty{#1}}
+\newcommand{\program}[1]{\gdef\@program{#1}}
+\newcommand{\university}[1]{\gdef\@university{#1}}
+\newcommand{\city}[1]{\gdef\@city{#1}}
+\newcommand{\yearofsubmission}[1]{\gdef\@yearofsubmission{#1}}
+%    \end{macrocode}
+%    
+% \subsection{Getter Macros}
+% Now expose robust “the‑” getters to access the values
+%    \begin{macrocode}
+\newcommand{\theauthorid}{\@authorid}
+\newcommand{\thefirstadvisor}{\@firstadvisor}
+\newcommand{\thefirstadvisorid}{\@firstadvisorid}
+\newcommand{\thesecondadvisor}{\@secondadvisor}
+\newcommand{\thesecondadvisorid}{\@secondadvisorid}
+\newcommand{\thefirstexaminer}{\@firstexaminer}
+\newcommand{\thefirstexaminerid}{\@firstexaminerid}
+\newcommand{\thesecondexaminer}{\@secondexaminer}
+\newcommand{\thesecondexaminerid}{\@secondexaminerid}
+\newcommand{\theheaddepartment}{\@headdepartment}
+\newcommand{\theheaddepartmentid}{\@headdepartmentid}
+\newcommand{\thefaculty}{\@faculty}
+\newcommand{\theprogram}{\@program}
+\newcommand{\theuniversity}{\@university}
+\newcommand{\thecity}{\@city}
+\newcommand{\theyearofsubmission}{\@yearofsubmission}
+%    \end{macrocode}
+% \subsection{Metadata Validation}
+% \begin{macro}{\@check}
+% Define internal macro to check if required metadata fields are set. 
+%    \begin{macrocode}
+\newcommand{\@check}[1]{%
+%    \end{macrocode}
+% The extra |\expandafter| forces the |\csname| to be fully expanded before |\ifdefstring| sees it.
+%    \begin{macrocode}
+  \expandafter\ifdefstring\expandafter{\csname @#1\endcsname}{}{%
+%    \end{macrocode}
+% If the field is empty, raise a class error prompting the user to define it in the preamble.
+%    \begin{macrocode}
+    \ClassError{skripsi.cls}{Missing \protect#1}%
+      {You must declare \protect#1{...} in preamble}%
+  }%
+}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \subsection{Title and Author}
+% Redefining primitive title and author commands is implemented quite different to keep the compatibility with titling package
+%    \begin{macrocode}
+% Load required packages
+\RequirePackage{letltxmacro}
+%    \end{macrocode}
+% by loading |letltxmacro| to save the titling-modified \title command
+%    \begin{macrocode}
+\LetLtxMacro\titlingoriginal\title
+\LetLtxMacro\authororiginal\author
+%    \end{macrocode}
+% This happens AFTER |titling| package is loaded. Then define keys for title language variants
+%    \begin{macrocode}
+\define@key{titlekeys}{en}{\gdef\@title@en{#1}}
+\define@key{titlekeys}{id}{\gdef\@title@id{#1}}
+\define@key{titlekeys}{fr}{\gdef\@title@fr{#1}}
+\define@key{titlekeys}{es}{\gdef\@title@es{#1}}
+%    \end{macrocode}
+% Initialize to empty
+%    \begin{macrocode}
+\gdef\@title@en{}
+\gdef\@title@id{}
+\gdef\@title@fr{}
+\gdef\@title@es{}
+\gdef\@authorid{}
+%    \end{macrocode}
+% Then begin redefine |\title| to accept optional key-value arguments as the other language title variants.
+%    \begin{macrocode}
+\renewcommand{\title}[2][]{%
+%    \end{macrocode}
+% Process the optional key-value
+%    \begin{macrocode}
+  \setkeys{titlekeys}{#1}%
+%    \end{macrocode}
+% Call titling's |\title| (defines |\thetitle|), so |\thetitle|
+%    \begin{macrocode}
+  \titlingoriginal{#2}%        
+}
+%    \end{macrocode}
+% also redefine |\author| to accept
+%    \begin{macrocode}
+\renewcommand{\author}[2][]{%
+%    \end{macrocode}
+% optional arguments to store author ID.
+%    \begin{macrocode}
+  \gdef\@authorid{#1}%
+%    \end{macrocode}
+% while keeping the original functionality of titling's |\author| that can be accessed through |\theauthor|.
+%    \begin{macrocode}
+  \authororiginal{#2}%
+}
+%    \end{macrocode}
+%    
+% \subsection{Getter Macros for Title and Author}
+% User-friendly commands to access the titles through |\thetitleXX| macros where XX is two letters language code.
+%    \begin{macrocode}
+\newcommand{\thetitleen}{\@title@en}
+\newcommand{\thetitleid}{\@title@id}
+\newcommand{\thetitlefr}{\@title@fr}
+\newcommand{\thetitlees}{\@title@es}
+\makeatother
+%    \end{macrocode}
+% \iffalse
+%</metadata>
+% \fi
