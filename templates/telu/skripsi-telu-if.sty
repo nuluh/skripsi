@@ -76,6 +76,14 @@
 \renewcommand{\skripsi@mainmatter@pagestyle}{\pagestyle{bottomrightcorner}}
 
 %---------------------------------------
+% ABSTRACT FORMATTING
+%---------------------------------------
+\renewcommand{\maxabstractlengthwarning}{200}
+\addto\captionsmalay{%
+  \renewcommand\abstractname{Abstrak}%
+}
+
+%---------------------------------------
 % CHAPTER FORMATTING
 %---------------------------------------
 
@@ -219,12 +227,6 @@ Yang menyatakan, \\[0.5cm] % space for signature
     url=false,
     doi=false,
     isbn=false
-}
-% \DefineBibliographyStrings{malay}{
-%   bibliography = {My Custom Title},
-% }
-\AtBeginDocument{%
-  \renewcommand{\bibname}{Daftar Pustaka}%
 }
 
 \endinput
