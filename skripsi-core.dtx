@@ -550,16 +550,14 @@
   \let\pdf@strcmp\strcmp
 \fi\fi
 %    \end{macrocode}
-%
+% \begin{macro}{\keywords}
+% \changes{v1.0}{2025/11/09}{Initial version}
 % The keyword system provides automatic alphabetical sorting of comma-separated
 % keywords and integrates them into both the document display and PDF metadata.
 % This implementation requires Lua\LaTeX{} compilation.
-%
-% \begin{macro}{\alphabubblesort}
-% \changes{v1.0}{2025/11/09}{Initial version}
 % 
 % Sort a comma-separated list of keywords alphabetically.
-% This macro serves as the \LaTeX{} interface to the Lua |sort_keywords| function
+% This serves as the \LaTeX{} interface to the Lua |sort_keywords| function
 % defined in Section~\ref{sec:lua-keyword-sort}.
 % 
 % \paragraph{Implementation Strategy}
@@ -574,15 +572,19 @@
 % manipulation, avoiding catcode issues and complex loop constructs. The resulting
 % sorted list is stored in |\sortedlist| for use in the |\keywords| macro.
 % 
-%    \begin{macrocode}
-\newcommand\alphabubblesort[1]{
-    \ifLuaTeX
-%    \end{macrocode}
 % Pass the entire keyword string to |sort_keywords| and store the result in
 % |\sortedlist|. The |\luaescapestring| command ensures that special characters
 % (backslashes, quotes, etc.) are properly escaped for Lua parsing, while
 % |\unexpanded| prevents premature macro expansion.
+% Display sorted keywords and embed them in PDF metadata.
+% This macro provides the user-facing interface for keyword input, handling both
+% visual presentation and metadata generation.
+%
+% ^^A TODO: Add capability to preserve basic formatting when sorting like |\textit|, |\textbf| in keywords.
 %    \begin{macrocode}
+\newcommand{\keywords}[1]{%
+\par\bigskip\noindent
+    \ifLuaTeX
         \edef\sortedlist{%
             \directlua{
             local input = "\luaescapestring{\unexpanded{#1}}"
@@ -600,16 +602,7 @@
         }%
         \gdef\sortedlist{#1}%
     \fi
-}
 %    \end{macrocode}
-% \end{macro}
-% \begin{macro}{\keywords}
-% \changes{v1.0}{2025/11/09}{Initial version}
-% 
-% Display sorted keywords and embed them in PDF metadata.
-% This macro provides the user-facing interface for keyword input, handling both
-% visual presentation and metadata generation.
-%
 % \paragraph{Multilingual Support}
 % The macro automatically detects the document language using |\languagename| and
 % adjusts the keyword label accordingly:
@@ -618,14 +611,11 @@
 % \item Other languages: displays as ``\textit{Keywords:}'' in italic text
 % \end{itemize}
 %    \begin{macrocode}
-\newcommand{\keywords}[1]{%
-  \bigskip\noindent
-  \alphabubblesort{#1}
-  \ifnum\pdf@strcmp{\languagename}{malay}=0
-    Kata Kunci: \sortedlist%
-    \else
-        \textit{Keywords: \sortedlist}%
-    \fi
+    \ifnum\pdf@strcmp{\languagename}{malay}=0
+        Kata Kunci: \sortedlist%
+        \else
+            \textit{Keywords: \sortedlist}%
+        \fi
 %    \end{macrocode}
 %    
 % \paragraph{PDF Metadata Integration}
