@@ -663,7 +663,7 @@
 %
 %    \begin{macrocode}
 \newcommand\abstractname{Abstract}
-\newcommand{\maxabstractlengthwarning}{}
+\newcommand{\maxabstractlengthwarning}{200} % TODO: make class warning if user trying to redefine this and consider to use LuaLaTeX for word count
 \NewEnviron{abstract}{%
 %    \end{macrocode}
 % Store the environment body globally for potential reuse (e.g., in PDF metadata).
