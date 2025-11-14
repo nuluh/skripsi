@@ -5,15 +5,13 @@
 %</internal>
 %<*readme>
 ----------------------------------------------------------------
-thesis --- A Bachelor Thesis class
-E-mail: you@your.domain
+skripsi --- Template is All You Need
+E-mail: rifqi.damar.ft21@mail.umy.ac.id
 Released under the LaTeX Project Public License v1.3c or later
 See https://www.latex-project.org/lppl.txt
 ----------------------------------------------------------------
 
-A LaTeX class for bachelor theses. Provides options for draft watermarking,
-primary/secondary title toggles, page styles, chapter formatting, APA biblatex,
-and multilingual setup via polyglossia.
+A LaTeX class for bachelor/undergraduate theses. This class provides a structured framework for writing academic theses, ensuring compliance with formatting guidelines commonly required by universities. It includes features such as metadata management, title page generation, table of contents, and support for multilingual abstracts and keywords.
 %</readme>
 %<*internal>
 \fi
@@ -28,8 +26,8 @@ and multilingual setup via polyglossia.
 \askforoverwritefalse
 \preamble
 ----------------------------------------------------------------
-thesis --- A Bachelor Thesis class
-E-mail: you@your.domain
+skripsi --- Template is All You Need
+E-mail: rifqi.damar.ft21@mail.umy.ac.id
 Released under the LaTeX Project Public License v1.3c or later
 See https://www.latex-project.org/lppl.txt
 ----------------------------------------------------------------
@@ -37,7 +35,7 @@ See https://www.latex-project.org/lppl.txt
 \endpreamble
 \postamble
 
-Copyright (C) 2025
+Copyright (C) 2025 Rifqi D. Panuluh <rifqi.damar.ft21@mail.umy.ac.id>
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License (LPPL), either
@@ -66,12 +64,12 @@ and the derived files           thesis.ins,
 %</install>
 %<install>\endbatchfile
 %<*internal>
-\usedir{source/latex/thesis}
+\usedir{source/latex/skripsi}
 \generate{
   \file{\jobname.ins}{\from{\jobname.dtx}{install}}
 }
 \nopreamble\nopostamble
-\usedir{doc/latex/thesis}
+\usedir{doc/latex/skripsi}
 \generate{
   \file{README.txt}{\from{\jobname.dtx}{readme}}
 }
