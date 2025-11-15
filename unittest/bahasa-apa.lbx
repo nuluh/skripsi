@@ -1,0 +1,373 @@
+\ProvidesFile{bahasa-apa.lbx}[2023/03/20\space v9.17\space APA biblatex localisation]
+\InheritBibliographyExtras{bahasa}
+
+\NewBibliographyString{publication}
+\NewBibliographyString{jourarticle}
+\NewBibliographyString{revisededition}
+\NewBibliographyString{typevolume}
+\NewBibliographyString{typevolumes}
+\NewBibliographyString{typeseries}
+\NewBibliographyString{typeseriess}
+\NewBibliographyString{typevolseries}
+\NewBibliographyString{typevolseriess}
+\NewBibliographyString{chair}
+\NewBibliographyString{chairs}
+\NewBibliographyString{on}
+\NewBibliographyString{retrieved}
+\NewBibliographyString{available}
+\NewBibliographyString{from}
+\NewBibliographyString{archivedat}
+\NewBibliographyString{origyear}
+\NewBibliographyString{reviewof}
+\NewBibliographyString{with}
+\NewBibliographyString{supplement}
+\NewBibliographyString{commenton}
+\NewBibliographyString{manunpub}
+\NewBibliographyString{maninprep}
+\NewBibliographyString{mansub}
+\NewBibliographyString{producer}
+\NewBibliographyString{producers}
+\NewBibliographyString{execproducer}
+\NewBibliographyString{execproducers}
+\NewBibliographyString{director}
+\NewBibliographyString{directors}
+\NewBibliographyString{execdirector}
+\NewBibliographyString{execdirectors}
+\NewBibliographyString{writer}
+\NewBibliographyString{writers}
+\NewBibliographyString{host}
+\NewBibliographyString{hosts}
+\NewBibliographyString{guestexpert}
+\NewBibliographyString{guestexperts}
+\NewBibliographyString{narrator}
+\NewBibliographyString{narrators}
+\NewBibliographyString{film}
+\NewBibliographyString{tvseries}
+\NewBibliographyString{tvepisode}
+\NewBibliographyString{video}
+\NewBibliographyString{song}
+\NewBibliographyString{album}
+\NewBibliographyString{podcast}
+\NewBibliographyString{podcastepisode}
+\NewBibliographyString{interview}
+\NewBibliographyString{speech}
+\NewBibliographyString{lithograph}
+\NewBibliographyString{map}
+\NewBibliographyString{lecturenotes}
+\NewBibliographyString{powerpoint}
+\NewBibliographyString{photograph}
+\NewBibliographyString{photographs}
+\NewBibliographyString{present}
+\NewBibliographyString{painting}
+\NewBibliographyString{article}
+\NewBibliographyString{execorder}
+\NewBibliographyString{senate}
+\NewBibliographyString{resolution}
+\NewBibliographyString{houseofrepresentatives}
+\NewBibliographyString{report}
+\NewBibliographyString{us}
+\NewBibliographyString{southcarolina}
+\NewBibliographyString{constitution}
+\NewBibliographyString{section}
+\NewBibliographyString{amendment}
+\NewBibliographyString{proposed}
+\NewBibliographyString{repealed}
+\NewBibliographyString{unitednations}
+\NewBibliographyString{charter}
+\NewBibliographyString{ofthe}
+\NewBibliographyString{tothe}
+\NewBibliographyString{alabama}
+\NewBibliographyString{alaska}
+\NewBibliographyString{arizona}
+\NewBibliographyString{arkansas}
+\NewBibliographyString{california}
+\NewBibliographyString{colorado}
+\NewBibliographyString{connecticut}
+\NewBibliographyString{delaware}
+\NewBibliographyString{florida}
+\NewBibliographyString{georgia}
+\NewBibliographyString{hawaii}
+\NewBibliographyString{idaho}
+\NewBibliographyString{illinois}
+\NewBibliographyString{indiana}
+\NewBibliographyString{iowa}
+\NewBibliographyString{kansas}
+\NewBibliographyString{kentucky}
+\NewBibliographyString{louisiana}
+\NewBibliographyString{maine}
+\NewBibliographyString{maryland}
+\NewBibliographyString{massachusetts}
+\NewBibliographyString{michigan}
+\NewBibliographyString{minnesota}
+\NewBibliographyString{mississippi}
+\NewBibliographyString{missouri}
+\NewBibliographyString{montana}
+\NewBibliographyString{nebraska}
+\NewBibliographyString{nevada}
+\NewBibliographyString{newhampshire}
+\NewBibliographyString{newjersey}
+\NewBibliographyString{newmexico}
+\NewBibliographyString{newyork}
+\NewBibliographyString{northcarolina}
+\NewBibliographyString{northdakota}
+\NewBibliographyString{ohio}
+\NewBibliographyString{oklahoma}
+\NewBibliographyString{oregon}
+\NewBibliographyString{pennsylvania}
+\NewBibliographyString{rhodeisland}
+\NewBibliographyString{southcarolina}
+\NewBibliographyString{southdakota}
+\NewBibliographyString{tennessee}
+\NewBibliographyString{texas}
+\NewBibliographyString{utah}
+\NewBibliographyString{vermont}
+\NewBibliographyString{virginia}
+\NewBibliographyString{washington}
+\NewBibliographyString{westvirginia}
+\NewBibliographyString{wisconsin}
+\NewBibliographyString{wyoming}
+
+\DeclareBibliographyStrings{%
+  inherit          = {bahasa},
+  jourarticle      = {{artikel}{artikel}},
+  ofthe            = {{dari}{dari}},
+  tothe            = {{ke}{ke}},
+  unitednations    = {{Perserikatan Bangsa-Bangsa}{P\adddot B\adddot B\adddot}},
+  charter          = {{piagam}{piagam}},
+  proposed         = {{diusulkan}{diusulkan}},
+  repealed         = {{dicabut pada}{dicabut}},
+  execorder        = {{Perintah Eksekutif}{Per\adddot\ Eksekutif}},
+  senate           = {{Senate}{S\adddot}},
+  resolution       = {{Resolusi}{Res\adddot}},
+  houseofrepresentatives = {{House\space of\space Representatives}{H\adddot R\adddot}},
+  report           = {{Laporan}{Lap\adddot}},
+  us               = {{A\adddot S\adddot}{A\adddot S\adddot}},
+  southcarolina    = {{South\space Carolina}{S\adddot C\adddot}},
+  constitution     = {{Constitution}{Const\adddot}},
+  section          = {{Bagian}{§}},
+  amendment        = {{amendemen}{amend\adddot}},
+  article          = {{pasal}{ps\adddot}},
+  painting         = {{lukisan}{lukisan}},
+  present          = {{saat ini}{saat ini}},
+  song             = {{lagu}{lagu}},
+  album            = {{album}{album}},
+  map              = {{peta}{peta}},
+  photograph       = {{foto}{foto}},
+  photographs      = {{foto}{foto}},
+  powerpoint       = {{Salindia Powerpoint}{Salindia Powerpoint}},
+  lecturenotes     = {{catatan kuliah}{catatan kuliah}},
+  podcast          = {{siniar audio}{siniar audio}},
+  podcastepisode   = {{episode siniar audio}{episode siniar audio}},
+  interview        = {{wawancara}{wawancara}},
+  speech           = {{rekaman audio pidato}{rekaman audio pidato}},
+  lithograph       = {{litograf}{litograf}},
+  video            = {{video}{video}},
+  film             = {{film}{film}},
+  tvseries         = {{serial TV}{serial TV}},
+  tvepisode        = {{episode serial TV}{episode serial TV}},
+  manunpub         = {{naskah tidak diterbitkan}{naskah tidak diterbitkan}},
+  maninprep        = {{naskah dalam persiapan}{naskah dalam persiapan}},
+  mansub           = {{naskah diserahkan untuk publikasi}{naskah diserahkan untuk publikasi}},
+  supplement       = {{suplemen}{supl\adddot}},
+  revisededition   = {{Edisi Revisi}{Ed\adddot\ Rev\adddot}},
+  reviewof         = {{tinjauan atas}{tinjauan atas}},
+  page             = {{Halaman}{hlm\adddot}},
+  pages            = {{Halaman}{hlm\adddot}},
+  on               = {{pada}{pada}},
+  retrieved        = {{Diakses}{Diakses}},
+  available        = {{Tersedia}{Tersedia}},
+  from             = {{dari}{dari}},
+  archivedat       = {{Diarsipkan di}{Diarsipkan di}},
+  with             = {{dengan}{dengan}},
+  reprintas        = {{dicetak ulang sebagai}{dicetak ulang sbg\adddot}},
+  reprintfrom      = {{dicetak ulang dari}{dicetak ulang dari}},
+  commenton        = {{komentar pada}{komentar pada}},
+  part             = {{bagian}{bag\adddot}},
+  paragraph        = {{Paragraf}{par\adddot}},
+  paragraphs       = {{Paragraf}{par\adddot}},
+  narrator         = {{narator}{nar\adddot}},
+  narrators        = {{narator}{nar\adddot}},
+  producer         = {{produser}{produser}},
+  producers        = {{produser}{produser}},
+  execproducer     = {{Produser Eksekutif}{Prod\adddot\ Eks\adddot}},
+  execproducers    = {{Produser Eksekutif}{Prod\adddot\ Eks\adddot}},
+  execdirector     = {{Direktur Eksekutif}{Dir\adddot\ Eks\adddot}},
+  execdirectors    = {{Direktur Eksekutif}{Dir\adddot\ Eks\adddot}},
+  chair            = {{Ketua}{Ketua}},
+  chairs           = {{Ketua}{Ketua}},
+  director         = {{sutradara}{sut\adddot}},
+  directors        = {{sutradara}{sut\adddot}},
+  writer           = {{penulis}{penulis}},
+  writers          = {{penulis}{penulis}},
+  host             = {{pembawa acara}{pembawa acara}},
+  hosts            = {{pembawa acara}{pembawa acara}},
+  guestexpert      = {{Pakar Tamu}{Pakar Tamu}},
+  guestexperts     = {{Pakar Tamu}{Pakar Tamu}},
+  mathesis         = {{Tesis magister}{Tesis magister}},
+  phdthesis        = {{Disertasi doktoral}{Disertasi doktoral}},
+  origyear         = {{karya asli terbit}{karya asli terbit}},
+  typevolume       = {{Penyunting Volume}{Peny\adddot\ Vol\adddot}},
+  typevolumes      = {{Penyunting Volume}{Peny\adddot\ Vol\adddot}},
+  typeseries       = {{Penyunting Seri}{Peny\adddot\ Seri}},
+  typeseriess      = {{Penyunting Seri}{Peny\adddot\ Seri}},
+  typevolseries    = {{Penyunting Seri dan Volume}{Peny\adddot\ Seri & Vol\adddot}},
+  typevolseriess   = {{Penyunting Seri dan Volume}{Peny\adddot\ Seri & Vol\adddot}},
+  annodomini       = {{Masehi}{M\adddot}},
+  beforechrist     = {{Sebelum Masehi}{SM\adddot}},
+  commonera        = {{Masehi}{M\adddot}},
+  beforecommonera  = {{Sebelum Masehi}{SM\adddot}},
+  alabama       = {{Alabama}{{A\adddot L\adddot}}},
+  alaska        = {{Alaska}{{A\adddot K\adddot}}},
+  arizona       = {{Arizona}{{A\adddot Z\adddot}}},
+  arkansas      = {{Arkansas}{{A\adddot R\adddot}}},
+  california    = {{California}{{C\adddot A\adddot}}},
+  colorado      = {{Colorado}{{C\adddot O\adddot}}},
+  connecticut   = {{Connecticut}{{C\adddot T\adddot}}},
+  delaware      = {{Delaware}{{D\adddot E\adddot}}},
+  florida       = {{Florida}{{F\adddot L\adddot}}},
+  georgia       = {{Georgia}{{G\adddot A\adddot}}},
+  hawaii        = {{Hawaii}{{H\adddot I\adddot}}},
+  idaho         = {{Idaho}{{I\adddot D\adddot}}},
+  illinois      = {{Illinois}{{I\adddot L\adddot}}},
+  indiana       = {{Indiana}{{I\adddot N\adddot}}},
+  iowa          = {{Iowa}{{I\adddot A\adddot}}},
+  kansas        = {{Kansas}{{K\adddot S\adddot}}},
+  kentucky      = {{Kentucky}{{K\adddot Y\adddot}}},
+  louisiana     = {{Louisiana}{{L\adddot A\adddot}}},
+  maine         = {{Maine}{{M\adddot E\adddot}}},
+  maryland      = {{Maryland}{{M\adddot D\adddot}}},
+  massachusetts = {{Massachusetts}{{M\adddot A\adddot}}},
+  michigan      = {{Michigan}{{M\adddot I\adddot}}},
+  minnesota     = {{Minnesota}{{M\adddot N\adddot}}},
+  mississippi   = {{Mississippi}{{M\adddot S\adddot}}},
+  missouri      = {{Missouri}{{M\adddot O\adddot}}},
+  montana       = {{Montana}{{M\adddot T\adddot}}},
+  nebraska      = {{Nebraska}{{N\adddot E\adddot}}},
+  nevada        = {{Nevada}{{N\adddot V\adddot}}},
+  newhampshire  = {{New Hampshire}{{N\adddot H\adddot}}},
+  newjersey     = {{New Jersey}{{N\adddot J\adddot}}},
+  newmexico     = {{New Mexico}{{N\adddot M\adddot}}},
+  newyork       = {{New York}{{N\adddot Y\adddot}}},
+  northcarolina = {{North Carolina}{{N\adddot C\adddot}}},
+  northdakota   = {{North Dakota}{{N\adddot D\adddot}}},
+  ohio          = {{Ohio}{{O\adddot H\adddot}}},
+  oklahoma      = {{Oklahoma}{{O\adddot K\adddot}}},
+  oregon        = {{Oregon}{{O\adddot R\adddot}}},
+  pennsylvania  = {{Pennsylvania}{{P\adddot A\adddot}}},
+  rhodeisland   = {{Rhode Island}{{R\adddot I\adddot}}},
+  southcarolina = {{South Carolina}{{S\adddot C\adddot}}},
+  southdakota   = {{South Dakota}{{S\adddot D\adddot}}},
+  tennessee     = {{Tennessee}{{T\adddot N\adddot}}},
+  texas         = {{Texas}{{T\adddot X\adddot}}},
+  utah          = {{Utah}{{U\adddot T\adddot}}},
+  vermont       = {{Vermont}{{V\adddot T\adddot}}},
+  virginia      = {{Virginia}{{V\adddot A\adddot}}},
+  washington    = {{Washington}{{W\adddot A\adddot}}},
+  westvirginia  = {{West Virginia}{{W\adddot V\adddot}}},
+  wisconsin     = {{Wisconsin}{{W\adddot I\adddot}}},
+  wyoming       = {{Wyoming}{{W\adddot Y\adddot}}},
+  publication   = {{Publikasi}{Publikasi}}
+}
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Drop end* when they are the same as *
+% You must use \print*date to get here otherwise it will be ignored
+
+\DeclareBibliographyExtras{%
+  \def\urldatecomma{\addcomma\addspace}%
+  \protected\def\mkbibdateapalong#1#2#3#4{%
+    % As per 10.1, Articles only have year
+    \ifboolexpr{ (test {\ifentrytype{article}}
+                  or (test {\ifentrytype{inbook}} and not test {\ifnameundef{editor}}))
+                 and not test {\iffieldequalstr{entrysubtype}{nonacademic}} }
+      {\clearfield{labelmonth}%
+       \clearfield{labelday}}
+      {}%
+    \iffieldundef{#1}% YEAR
+      {}%
+      {\iffieldbibstring{#1}{\bibncpstring{\thefield{#1}}}{\thefield{#1}}}%
+    \iffieldundef{#2}% YEARDIVISION
+      {}%
+      {\iffieldundef{#1}%
+        {}%
+        {\addcomma\addspace}%
+       \iffieldbibstring{#2}{\bibcplstring{\thefield{#2}}}{\thefield{#2}}}%
+    \iffieldundef{#3}% MONTH
+      {}%
+      {\iffieldundef{#1}%
+        {}%
+        {\addcomma\addspace}%
+       \mkbibmonth{\thefield{#3}}}%
+    \iffieldundef{#4}% DAY
+      {}%
+      {\iffieldundef{#3}%
+        {}%
+        {\addspace}%
+       \stripzeros{\thefield{#4}}}}%
+  \protected\def\mkbibdateapalongextra#1#2#3#4{%
+    % As per 10.1, Articles only have year
+    \ifboolexpr{ (test {\ifentrytype{article}}
+                  or (test {\ifentrytype{inbook}} and not test {\ifnameundef{editor}}))
+                 and not test {\iffieldequalstr{entrysubtype}{nonacademic}} }
+      {\clearfield{labelmonth}%
+       \clearfield{labelday}}
+      {}%
+    \iffieldundef{#1}% YEAR
+      {}%
+      {\iffieldbibstring{#1}{\bibncpstring{\thefield{#1}}}{\thefield{#1}}\printfield{extradate}}%
+    \iffieldundef{#2}% YEARDIVISION
+      {}%
+      {\iffieldundef{#1}%
+        {}%
+        {\addcomma\addspace}%
+       \iffieldbibstring{#2}{\bibcplstring{\thefield{#2}}}{\thefield{#2}}}%
+    \iffieldundef{#3}% MONTH
+      {}%
+      {\iffieldundef{#1}%
+        {}%
+        {\addcomma\addspace}%
+       \mkbibmonth{\thefield{#3}}}%
+    \iffieldundef{#4}% DAY
+      {}%
+      {\iffieldundef{#3}%
+        {}%
+        {\addspace}%
+       \stripzeros{\thefield{#4}}}}%
+  \protected\def\mkbibdateapalongmdy#1#2#3#4{%
+    % As per 10.1, Articles only have year
+    \ifboolexpr{ (test {\ifentrytype{article}}
+                  or (test {\ifentrytype{inbook}} and not test {\ifnameundef{editor}}))
+                 and not test {\iffieldequalstr{entrysubtype}{nonacademic}} }
+      {\clearfield{labelmonth}%
+       \clearfield{labelday}}
+      {}%
+    \iffieldundef{#2}% YEARDIVISION
+      {}%
+      {\iffieldundef{#1}%
+        {}%
+        {\addcomma\addspace}%
+       \iffieldbibstring{#2}{\bibcplstring{\thefield{#2}}}{\thefield{#2}}}%
+    \iffieldundef{#3}% MONTH
+      {}%
+      {\mkbibmonth{\thefield{#3}}}%
+    \iffieldundef{#4}% DAY
+      {}%
+      {\addspace}%
+       \stripzeros{\thefield{#4}}%
+    \iffieldundef{#1}% YEAR
+      {}%
+      {\iffieldundef{#4}%
+        {\iffieldundef{#3}%
+          {}%
+          {\addspace}}%
+        {\addcomma\addspace}%
+       \iffieldbibstring{#1}{\bibncpstring{\thefield{#1}}}{\thefield{#1}}}}}
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\endinput

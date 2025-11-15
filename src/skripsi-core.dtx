@@ -325,16 +325,6 @@
               % The logo at center of page (ANCHOR POINT) shift up by 1cm
               \node at ($(center) + (0cm,1cm)$)
               {\includegraphics[width=5cm]{frontmatter/img/logo.png}};
-              
-              % --- Option A: diagonal across the whole paper ---
-              % \draw[red, line width=1pt] (current page.north west) -- (current page.south east);
-              % \draw[red, line width=1pt] (current page.north east) -- (current page.south west);
-              % % horizontal and vertical
-              % \draw[blue, line width=1pt] (current page.north) -- (current page.south);
-              % \draw[blue, line width=1pt] (current page.west) -- (current page.east);
-              % % horizontal line with 1cm up offset
-              % \draw[green, line width=1pt] ($(current page.west) + (0cm,1cm)$) -- ($(current page.east) + (0cm,1cm)$);
-
           \end{tikzpicture}%
           \begin{minipage}[b][0.49\textheight][b]{\textwidth}
           \centering
@@ -401,7 +391,7 @@
         \vspace{1.5cm}
         {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{\thetitle}}\par}
         \vspace{1cm}
-        {\normalsize\selectfont Diajukan guna melengkapi persyaratan untuk memenuhi gelar Sarjana Teknik di Program Studi Teknik Sipil, Fakultas Teknik, Universitas Muhammadiyah Yogyakarta\par}
+        {\normalsize\selectfont \thesubmissionstatement\par}
         \vfill
         \end{minipage}
         \begin{tikzpicture}[remember picture, overlay]
@@ -411,15 +401,6 @@
             % The logo at center of page (ANCHOR POINT) shift up by 1cm
             \node at ($(center) + (0cm,1cm)$)
                 {\includegraphics[width=5cm]{frontmatter/img/logo.png}};
-
-            % --- Option A: diagonal across the whole paper ---
-            % \draw[red, line width=1pt] (current page.north west) -- (current page.south east);
-            % \draw[red, line width=1pt] (current page.north east) -- (current page.south west);
-            % % horizontal and vertical
-            % \draw[blue, line width=1pt] (current page.north) -- (current page.south);
-            % \draw[blue, line width=1pt] (current page.west) -- (current page.east);
-            % % horizontal line with 1cm up offset
-            % \draw[green, line width=1pt] ($(current page.west) + (0cm,1cm)$) -- ($(current page.east) + (0cm,1cm)$);
         \end{tikzpicture}%
         \begin{minipage}[b][0.49\textheight][b]{\textwidth}
         \centering

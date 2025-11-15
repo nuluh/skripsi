@@ -1,2 +1,5 @@
 .build/*
+!.build/*.pdf
 **/.build/*
+!**/.build/*.pdf
+l3build.md

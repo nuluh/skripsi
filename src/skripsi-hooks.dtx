@@ -7,7 +7,19 @@
 %    \begin{macrocode}
 \makeatletter
 %    \end{macrocode}
-% 
+% \subsection{Title Page Hooks}
+% The class provides hooks to customize the title page layout and content.
+% \subsubsection{Submission Statement}
+% \begin{macro}{submissionstatement}
+% Users can redefine the submission statement on the title page by redefining the macro |\@skripsi@maketitle@submissionstatement|.
+%    \begin{macrocode}
+\newcommand{\@skripsi@maketitle@submissionstatement}{Diajukan guna melengkapi persyaratan untuk memenuhi gelar Sarjana di \theprogram, \thefaculty, \theuniversity}
+\newcommand{\submissionstatement}[1]{%
+  \renewcommand{\gdef\@skripsi@maketitle@submissionstatement}{#1}%
+}
+\newcommand{\thesubmissionstatement}{\@skripsi@maketitle@submissionstatement}
+%    \end{macrocode}
+%    \end{macro}
 % \subsection{Book Matter Hooks}
 % The class provides hooks to customize the |\frontmatter|, |\mainmatter|, and |\backmatter| sections of the document.
 % \subsubsection{Page Numbering}
