@@ -34,6 +34,25 @@
 \newcommand{\skripsi@mainmatter@pagestyle}{\pagestyle{fancyplain}}
 \newcommand{\skripsi@backmatter@pagestyle}{\pagestyle{fancyplain}}
 %    \end{macrocode}
+% \subsection{Paragraph Indentation}
+% \begin{macro}{\SetSectionIndent}
+% \begin{macro}{\SetSubsectionIndent}
+% \begin{macro}{\SetSubsubsectionIndent}
+% User commands to set individual indent levels.
+%    \begin{macrocode}
+\newcommand{\SetSectionIndent}[1]{%
+  \setlength{\skripsi@section@indent}{#1}%
+}
+\newcommand{\SetSubsectionIndent}[1]{%
+  \setlength{\skripsi@subsection@indent}{#1}%
+}
+\newcommand{\SetSubsubsectionIndent}[1]{%
+  \setlength{\skripsi@subsubsection@indent}{#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 %    \begin{macrocode}
 \makeatother
 %    \end{macrocode}

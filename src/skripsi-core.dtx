@@ -242,15 +242,37 @@
 %    Set section numbering depth to include up to \texttt{subsubsection} (1.1.1.1 Subsubsection).
 %    \begin{macrocode}
 \setcounter{secnumdepth}{3}
-}
 %    \end{macrocode}
-%\end{macro}
-% 
-% Then, sectioning setup during class load is applied.
+% \subsection{Paragraph}
+% Define indent lengths for section, subsection, and subsubsection levels.
 %    \begin{macrocode}
-\skripsi@setup@sectioning
+\newlength{\skripsi@section@indent}
+\newlength{\skripsi@subsection@indent}
+\newlength{\skripsi@subsubsection@indent}
 %    \end{macrocode}
-% 
+% Set default indent lengths to zero.
+%    \begin{macrocode}
+\setlength{\skripsi@section@indent}{\z@}
+\setlength{\skripsi@subsection@indent}{\z@}
+\setlength{\skripsi@subsubsection@indent}{\z@}
+%    \end{macrocode}
+% Then, prepend each sectioning command to set the left skip according to the defined indent lengths with ensure paragraph break before setting the indent.
+%    \begin{macrocode}
+\pretocmd{\section}{%
+  \par
+  \setlength{\leftskip}{\skripsi@section@indent}%
+}{}{}
+
+\pretocmd{\subsection}{%
+  \par
+  \setlength{\leftskip}{\skripsi@subsection@indent}%
+}{}{}
+
+\pretocmd{\subsubsection}{%
+  \par
+  \setlength{\leftskip}{\skripsi@subsubsection@indent}%
+}{}{}
+%    \end{macrocode}
 %\section{Cover Page}
 %\begin{macro}{\maketitle}
 % Redefine \cs{maketitle} to support multiple cover page styles with fallback options.
