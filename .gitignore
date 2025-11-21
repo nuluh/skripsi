@@ -3,3 +3,5 @@
 **/.build/*
 !**/.build/*.pdf
 l3build.md
+*.lbx
+*.tar.gz
