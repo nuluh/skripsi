@@ -1,0 +1,1 @@
+/home/dam/thesis/testclass/src/.build/skripsi.cls

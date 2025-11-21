@@ -1,0 +1,282 @@
+%% skripsi-uii-law.sty
+%% Copyright 2025 Skripsi LaTeX Project
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Rifqi D. Panuluh <rifqi.damar.ft21@mail.umy.ac.id>.
+%%
+%% This work consists of the files listed in README.md
+%%
+%% -----------------------------------------------------------------------
+%% Package Information
+%% -----------------------------------------------------------------------
+%% Package: skripsi-uii-law
+%% Purpose: Undergraduate thesis (skripsi)
+%% 
+%% University:  Universitas Islam Indonesia
+%% Faculty:     Fakultas Hukum
+%% Department:  Ilmu Hukum
+%% Program:     Sarjana Ilmu Hukum
+%% 
+%% Official Guidelines:
+%%   - Ported from the Microsoft Word template
+%%
+%% Compliance: This package implements the official thesis formatting
+%% requirements for Telkom University Informatics program as of 2024.
+%%
+%% -----------------------------------------------------------------------
+%% Maintainer & Contact
+%% -----------------------------------------------------------------------
+%% Current Maintainer: Rifqi D. Panuluh <rifqi.damar.ft21@mail.umy.ac.id>
+%% GitHub: https://github.com/nuluh/skripsi
+%% Issues: https://github.com/nuluh/skripsi/issues
+%%
+%% -----------------------------------------------------------------------
+%% Version History
+%% -----------------------------------------------------------------------
+%% v1.0.0 (2025-01-15) - Initial release
+%%
+%% -----------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{skripsi-uii-law}[2025/01/01 v1.0 Universitas Islam Indonesia Undergraduate Thesis Style]
+
+\makeatletter
+%---------------------------------------
+% LOAD BASE COMPONENTS
+%---------------------------------------
+% Ensure skripsi class is loaded
+\@ifclassloaded{skripsi}{}{%
+  \PackageError{skripsi-uii-law}{%
+    This package requires 'skripsi.cls' document class%
+  }{%
+    Use: \protect\documentclass{skripsi}%
+  }%
+}
+
+%---------------------------------------
+% METADATA
+%---------------------------------------
+
+\program{Ilmu Hukum}
+\faculty{Fakultas Hukum}
+\university{Universitas Islam Indonesia}
+\city{Yogyakarta}
+\yearofsubmission{\the\year}
+
+%---------------------------------------
+% PAGE GEOMETRY
+%---------------------------------------
+
+\RequirePackage{geometry}
+\geometry{
+  a4paper,
+  top=3cm,
+  bottom=3cm,
+  left=4cm,
+  right=3cm
+}
+
+% hypersetup
+%---------------------------------------
+% HYPERREF SETUP
+%---------------------------------------
+\RequirePackage{hyperref}
+\hypersetup{
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+}
+%---------------------------------------
+% FONTS SIZE
+%---------------------------------------
+\newcommand\llarge{\@setfontsize\llarge{16}{19.2}}
+
+%---------------------------------------
+% PAGE STYLE
+%---------------------------------------
+\fancypagestyle{plain}{ % for chapter starting pages
+    \fancyhf{}
+    % \setlength{\headheight}{15pt} % to avoid fancyhdr warning
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyfoot[R]{\thepage}
+}
+\fancypagestyle{bottomrightcorner}{
+    \fancyhf{}
+    % \setlength{\headheight}{15pt} % to avoid fancyhdr warning
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyfoot[R]{\thepage}
+}
+
+%---------------------------------------
+% BOOK MATTER FORMATTING
+%---------------------------------------
+\renewcommand{\skripsi@mainmatter@pagestyle}{\pagestyle{bottomrightcorner}}
+
+%---------------------------------------
+% ABSTRACT FORMATTING
+%---------------------------------------
+\renewcommand{\maxabstractlengthwarning}{200}
+\addto\captionsmalay{%
+  \renewcommand\abstractname{Abstrak}%
+}
+
+%---------------------------------------
+% CHAPTER & SECTION TITLING FORMATTING
+%---------------------------------------
+% Define indent amounts (ABSOLUTE from left margin)
+
+\titleformat{\chapter}[block]
+  {\large\bfseries\centering}
+  {\MakeUppercase\chaptername~\arabic{chapter}} % << display format
+  {1ex}
+  {\MakeUppercase}
+
+\titlespacing{\chapter}{0pt}{0cm}{\baselineskip}
+
+\renewcommand{\thesection}{\Alph{section}.}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\alph{subsubsection}.}
+
+\SetSubsectionIndent{2em}
+\SetSubsubsectionIndent{4em}
+
+\titlespacing*{\section}
+  {0pt}       % left indent for heading
+  {3.5ex plus 1ex minus .2ex}
+  {2.3ex plus .2ex}
+\titlespacing*{\subsection}
+  {2em}    % left indent for heading
+  {3.25ex plus 1ex minus .2ex}
+  {1.5ex plus .2ex}
+\titlespacing*{\subsubsection}
+  {4em}  % left indent for heading
+  {3.25ex plus 1ex minus .2ex}
+  {1.5ex plus .2ex}
+
+%---------------------------------------
+% TABLE OF CONTENTS FORMATTING
+%---------------------------------------
+\renewcommand{\thechapter}{\arabic{chapter}}
+\setlength{\cftsecindent}{1em}
+\setcounter{tocdepth}{2}
+\makeatother
+%---------------------------------------
+% TITLE PAGE
+%---------------------------------------
+\makeatletter
+\renewcommand{\maketitle}{%
+\ifdefined\thetitle\else \ClassError{skripsi.cls}{Missing \protect\title}{}\fi
+\ifdefined\theauthor\else \ClassError{skripsi.cls}{Missing \protect\author}{}\fi
+\ifdefined\thedate\else \ClassError{skripsi.cls}{Missing \protect\date}{}\fi
+\@check{program}
+\@check{faculty}
+\@check{university}
+\@check{yearofsubmission}
+  {%
+    \begin{titlepage}
+    \onehalfspacing
+    \newgeometry{margin=3cm}%
+    \noindent
+    \begin{minipage}[t][0.49\textheight][t]{\textwidth}
+    \centering
+    {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{\thetitle}}\par}
+    \vspace{1.5cm}
+    {\fontsize{14pt}{16pt}\selectfont \textbf{\MakeUppercase{Skripsi}}\par}
+    \vfill
+    \end{minipage}
+    \begin{tikzpicture}[remember picture, overlay]
+        % This respects your geometry margins
+        \coordinate (center) at (current page text area.center);
+
+        % The logo at center of page (ANCHOR POINT) shift up by 1cm
+        \node at ($(center) + (0cm,1cm)$)
+        {\includesvg[width=3cm]{frontmatter/img/logo.svg}};
+    \end{tikzpicture}%
+    \begin{minipage}[b][0.49\textheight][b]{\textwidth}
+    \centering
+
+    \vfill
+    
+    Oleh: \par
+    \begin{tabular}{ll}
+    Nama & : \theauthor \\
+    No. Mhs & : \theauthorid \\
+    Program Studi & : \theprogram \\
+    \end{tabular}
+
+    \vfill
+
+    {\llarge
+    \textbf{\MakeUppercase\theuniversity} \par
+    \textbf{\MakeUppercase\thefaculty} \par
+    \textbf{\MakeUppercase\thecity} \par
+    \textbf{\theyearofsubmission} \par
+    }
+    \end{minipage}
+    \end{titlepage}%
+  }%
+}
+\makeatother
+% -------------------------------------
+% APPROVAL PAGE
+% -------------------------------------
+
+
+%---------------------------------------
+% ORIGINALITY STATEMENT PAGE
+%---------------------------------------
+\newcommand{\originalitystatement}{
+  % frontmatter/originality.tex
+\chapter{Lembar Orisinalitas}
+\onehalfspacing
+Dengan ini saya, \theauthor, menyatakan sesungguhnya bahwa Tugas Akhir saya dengan judul ''\thetitle'' beserta dengan seluruh isinya merupakan hasil karya saya sendiri, dengan tidak melakukan penjiplakan yang tidak sesuai dengan etika keilmuan yang berlaku dengan masyarakat keilmuan, serta produk dari tugas akhir ini bukan merupakan hasil dari Generative AI. Saya siap menggung risiko/sanksi yang diberikan jika di kemudian hari ditemukan pelanggaran terhadap etika keilmuan dalam Laporan Tugas Akhir, atau jika ada klaim dari pihak lain terhadap keaslian karya.\par
+
+\begin{flushright}
+\begin{minipage}{0.5\textwidth}
+\centering
+\thecity, \today \\
+Yang menyatakan, \\[0.5cm] % space for signature
+% Materai box
+\hspace*{-3cm}% shift the box slightly left
+\begin{tabular}{@{}c@{}}
+  \fbox{
+    \begin{minipage}[c][1.8cm][c]{1.6cm}
+      \centering
+      Materai\\
+      6000
+    \end{minipage}
+  }
+\end{tabular}
+\\[1cm]
+% \rule{6cm}{0.4pt} % signature line
+\theauthor \\ NIM \theauthorid
+\end{minipage}
+\end{flushright}
+}
+
+% biblatex
+%---------------------------------------
+% BIBLATEX SETUP
+%---------------------------------------
+\RequirePackage[style=ieee, backend=biber]{biblatex}
+\ExecuteBibliographyOptions{
+    alltimes=24h,
+    datezeros=false,
+    dateera=secular,
+    dateeraauto=600,
+    dateuncertain=true,
+    datecirca=true,
+    sorting=none,
+    url=false,
+    doi=false,
+    isbn=false
+}
+
+\endinput

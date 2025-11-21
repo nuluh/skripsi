@@ -1,0 +1,80 @@
+\documentclass{skripsi}
+\usepackage{skripsi-uii-law}
+\usepackage{booktabs}
+\usepackage{lipsum}
+\title[
+en={All You Need Is LaTeX and A Nice Document Class}, 
+id={Semua yang Kamu Butuhkan Adalah LaTeX dan \textit{Document Class} yang Bagus}
+]{Semua yang Kamu Butuhkan Adalah LaTeX dan \textit{Document Class} yang Bagus}
+\author[1234567890]{Asep Bensin}
+\date{\today}
+\firstadvisor[1234567890]{Dr.\ Ir.\ Ujang Sufahri, M.Eng.}
+\secondadvisor[1234567890]{Prof.\ Dr.\ Bambang Supriyanto, M.Sc.}
+\headdepartment[1234567890]{Dr.\ Eng.\ Siti Aminah, M.T.}
+
+\addbibresource{final.bib}
+
+\begin{document}
+\frontmatter
+\maketitle
+% \approvalpage
+\originalitystatement
+\onehalfspacing
+\tableofcontents
+\listoffigures
+\listoftables
+\begin{abstract}
+    \noindent Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \par
+\end{abstract}%
+\keywords{Machine Learning, Prediksi Kerusakan Jalan, SVM, PCA, Pencarian Grid}
+\begin{otherlanguage}{english}
+    \begin{itshape}
+        \begin{abstract}
+            \noindent Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \par
+        \end{abstract}%
+    \end{itshape}
+\keywords{Machine Learning, Road Damage Prediction, SVM, PCA, Grid Search}
+\end{otherlanguage}
+\mainmatter
+\onehalfspacing
+\chapter{Lorem}
+\section{Consectetur}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\par
+\subsection{Sit Amet}
+\lipsum[4-6]\par
+\subsubsection{Consectetur}
+\lipsum[7]\par
+\lipsum[8]\par
+\lipsum[9]\par
+\chapter{Ipsum}
+\section{Amet}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-b}
+    \caption{Contoh Gambar}
+    \label{fig:contoh-gambar}
+\end{figure}
+\lipsum[10-12]
+\begin{table}[H]
+    \centering
+    \caption{Parameter-parameter dalam pencarian \textit{grid} tahap pertama (\textit{coarse grid-search}) untuk optimasi \textit{hyperparameter} model SVM.}
+    \label{tab:grid_search_parameters}
+    \begin{tabular}{lll}
+        \toprule
+        Parameter & Nilai yang Diuji & Jumlah Nilai \\
+        \midrule
+        % kernel
+        kernel & RBF & 1 \\
+        % regularization parameter
+        $C$ & $\left\{ 2^{\,x} \,\middle|\, x \in \{-5, 0, 5, 10, 15\} \right\}$ & 5 \\
+        $\gamma$ & $\left\{ 2^{\,x} \,\middle|\, x \in \{-15, -10, -5, 0, 5\} \right\}$ & 5 \\
+        $n_{components}$ & $\{512, 256, 128, 64, 32, 16, 8, 4\}$ & 8 \\
+        \midrule
+        Total Kombinasi & & 200 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\nocite{*}
+\printbibliography[heading=bibintoc, title={Daftar Pustaka}]
+
+\end{document}
