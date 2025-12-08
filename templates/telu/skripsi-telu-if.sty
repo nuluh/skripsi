@@ -206,16 +206,26 @@ dari \theprogram, \\
 {Menyetujui,\par}
 \vspace{\baselineskip}
 \begin{center}
+\expandafter\ifdefstring\expandafter{\thesecondadvisor}{}{%
+  % Both advisors
 \begin{tabular}{cc}
-    Pembimbing I, & Pembimbing II, \\[2.5cm]
+      Pembimbing I, & Pembimbing II, \\[2cm]
     \thefirstadvisor & \thesecondadvisor \\
     NIP:\thefirstadvisorid & NIP:\thesecondadvisorid
 \end{tabular}
+}{%
+  % Only first advisor
+  \begin{tabular}{c}
+      Pembimbing, \\[2cm]
+      \thefirstadvisor \\
+      NIP:\thefirstadvisorid
+  \end{tabular}
+}
 \end{center}
 \vspace{\baselineskip}
 \begin{center}
 \begin{tabular}{c}
-    Ketua Program Studi \\ \theprogram, \\[2.5cm]
+    Ketua Program Studi \\ \theprogram, \\[2cm]
     \theheaddepartment \\
     NIP: \theheaddepartmentid
 \end{tabular}
