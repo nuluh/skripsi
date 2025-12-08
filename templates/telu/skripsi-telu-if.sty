@@ -212,11 +212,11 @@ dari \theprogram, \\
 \begin{center}
 \expandafter\ifdefstring\expandafter{\thesecondadvisor}{}{%
   % Both advisors
-\begin{tabular}{cc}
+  \begin{tabular}{cc}
       Pembimbing I, & Pembimbing II, \\[2cm]
-    \thefirstadvisor & \thesecondadvisor \\
-    NIP:\thefirstadvisorid & NIP:\thesecondadvisorid
-\end{tabular}
+      \thefirstadvisor & \thesecondadvisor \\
+      NIP:\thefirstadvisorid & NIP:\thesecondadvisorid
+  \end{tabular}
 }{%
   % Only first advisor
   \begin{tabular}{c}
@@ -284,7 +284,9 @@ Yang menyatakan, \\[0.5cm] % space for signature
     sorting=none,
     url=false,
     doi=false,
-    isbn=false
+    isbn=false,
+    minnames=1,
+    maxcitenames=2, maxbibnames=6
 }
 
 \endinput
