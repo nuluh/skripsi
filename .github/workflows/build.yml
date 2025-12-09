@@ -1,0 +1,68 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: scheme-basic latex-bin xetex luatex
+
+      - name: Build skripsi.cls
+        run: |
+          cd src
+          bash ../build.sh
+          ls -la .build/skripsi.cls
+
+      - name: Run tests
+        run: |
+          bash unittest.sh
+
+      - name: Delete old dev release
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          gh release delete dev --yes || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create/Update dev release
+        if: github.ref == 'refs/heads/dev'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: dev
+          name: "Development Build"
+          files: .build/skripsi.cls
+          draft: false
+          prerelease: true
+          generate_release_notes: false
+          body: |
+            Latest development build from `dev` branch.
+            Use at your own risk.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create stable release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            .build/skripsi.cls
+            src/skripsi.dtx
+            src/skripsi-*.dtx
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
